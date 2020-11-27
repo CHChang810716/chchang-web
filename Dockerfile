@@ -11,4 +11,4 @@ COPY . .
 
 RUN npm install
 
-CMD [ "node", "server.js", $PORT]
+CMD node server.js $PORT

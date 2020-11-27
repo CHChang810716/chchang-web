@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-
+console.log(process.argv)
 // Constants
 const PORT = process.argv[2];
 const HOST = '0.0.0.0';
