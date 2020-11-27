@@ -1,0 +1,3 @@
+[submodule "lib/Arkitekto"]
+	path = lib/Arkitekto
+	url = https://github.com/CHChang810716/Arkitekto.git

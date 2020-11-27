@@ -1,14 +1,13 @@
-FROM node:12
+FROM celiangarcia/gcc7-cmake:3.13.5
 
 # Create app directory
 WORKDIR /usr/src/app
 
-# If you are building your code for production
-# RUN npm ci --only=production
-
-# Bundle app source
 COPY . .
 
-RUN npm install
+RUN mkdir build && cd build && \
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../stage -DBUILD_TEST=OFF && \
+    cmake --build . --target install && \
+    cd ..
 
-CMD node server.js $PORT
+CMD echo $PORT

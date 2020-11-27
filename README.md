@@ -1,1 +1,2 @@
-# chchang-web
+# CppProjectTemplate
+C++ CMake project template
