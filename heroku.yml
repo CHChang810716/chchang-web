@@ -1,3 +1,5 @@
 build:
   docker:
     heroku-chiahuac: Dockerfile
+run:
+  heroku-chiahuac: node server.js
