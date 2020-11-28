@@ -1,3 +1,6 @@
 [submodule "lib/Arkitekto"]
 	path = lib/Arkitekto
 	url = https://github.com/CHChang810716/Arkitekto.git
+[submodule "lib/pixiu"]
+	path = lib/pixiu
+	url = https://github.com/CHChang810716/pixiu.git
