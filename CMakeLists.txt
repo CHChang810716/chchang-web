@@ -9,7 +9,7 @@ set(
 )
 HunterGate(
     URL "https://github.com/CHChang810716/hunter.git"
-    SHA1 c690bb041dcf7c3b3fb3e23031ec509a013c0d80
+    SHA1 b6340cac9a56ca2b8f056f2dc68744bd974c0a1e
     FILEPATH ${CMAKE_CURRENT_LIST_DIR}/cmake/hunter_config.cmake
 )
 
@@ -23,4 +23,4 @@ option(INSTALL_DEPS "Install dependensies"      OFF)
 include(cmake/packages.cmake)
 include(cmake/src.cmake)
 include(cmake/ide.cmake)
-include(cmake/install.cmake)
+# include(cmake/install.cmake)

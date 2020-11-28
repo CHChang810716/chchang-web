@@ -1,0 +1,1 @@
+cmake .. -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Debug -DBUILD_TEST=OFF -DCMAKE_INSTALL_PREFIX=..\stage -Wno-dev
