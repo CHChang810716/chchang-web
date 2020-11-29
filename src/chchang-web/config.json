@@ -1,0 +1,10 @@
+{
+  "loggers": {
+    "core": {
+      "level": "debug"
+    },
+    "app": {
+      "level": "debug"
+    }
+  }
+}

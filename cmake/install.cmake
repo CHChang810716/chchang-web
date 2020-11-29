@@ -49,6 +49,14 @@ endforeach()
 #     DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT Develop
 # )
 install(
+    FILES src/chchang-web/config.json
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/etc/ 
+)
+install(
+    DIRECTORY chchang-web-ui/build/
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/share
+)
+install(
     EXPORT ${AKT_TARGETS_EXPORT}
     NAMESPACE ${AKT_NAMESPACE}
     DESTINATION ${AKT_CONFIG_INSTALL_DIR}
