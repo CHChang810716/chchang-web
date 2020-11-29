@@ -10,4 +10,4 @@ RUN mkdir build && cd build && \
     cmake --build . --target install && \
     cd ..
 
-CMD echo $PORT
+CMD stage/bin/chchang-web-server $PORT
