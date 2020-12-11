@@ -38,6 +38,9 @@ std::string mime_type(boost::beast::string_view path)
 }
 static auto get_static(const std::string& from_shared) {
   auto pathfs = avalon::app::install_dir() / "share" / from_shared;
+  if(!boost::filesystem::exists(pathfs)) {
+    throw pixiu::server_bits::error::target_not_found(from_shared);
+  }
   auto rep = pixiu::make_response(pathfs);
   rep.apply([&pathfs](auto&& frep){
     frep.set(http::field::content_type, mime_type(pathfs.string()));
@@ -53,11 +56,11 @@ int main(int argc, char* argv[]) {
   server.get("/hello_world", [](const auto& req) {
     return pixiu::make_response("hello world");
   });
-  server.get("/static/.+", [](const auto& req) {
-    return get_static(req.target().substr(8).to_string());
-  });
   server.get("/", [](const auto& req) {
     return get_static("index.html");
+  });
+  server.get("/.+", [](const auto& req) {
+    return get_static(req.target().substr(1).to_string());
   });
   server.listen("0.0.0.0", std::atoi(argv[1]));
 
