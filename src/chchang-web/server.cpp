@@ -53,11 +53,11 @@ int main(int argc, char* argv[]) {
    * make a http server and listen to 8080 port
    */
   auto server = pixiu::make_server();
-  server.get("/hello_world", [](const auto& req) {
-    return pixiu::make_response("hello world");
-  });
   server.get("/", [](const auto& req) {
     return get_static("index.html");
+  });
+  server.get("/api/v1/hello_world", [](const auto& req) {
+    return pixiu::make_response("hello world");
   });
   server.get("/.+", [](const auto& req) {
     return get_static(req.target().substr(1).to_string());

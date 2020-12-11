@@ -1,5 +1,5 @@
-import styles from './App.module.scss';
-
+import styles from './App.module.scss'
+import Content from './App/Content'
 
 const App = () => {
   return (
@@ -11,7 +11,7 @@ const App = () => {
         tree view
       </div>
       <div className={styles.Content}>
-        content view: markdown viewer, canvas, dialog
+        <Content />
       </div>
       <div className={styles.RSidebar}>
         content index

@@ -5,7 +5,13 @@
   grid-row-end: $b;
   grid-column-start: $r;
   grid-column-end: $l;
-
+  padding: 15px;
+}
+@mixin sidebar {
+  min-width: 200px;
+}
+@mixin content {
+  min-width: 500px;
 }
 
 .App {
@@ -22,12 +28,15 @@
 }
 .LSidebar {
   @include block(2, 3, 1, 2);
+  @include sidebar;
 }
 .Content {
   @include block(2, 3, 2, 3);
+  @include content;
 }
 .RSidebar {
   @include block(2, 3, 3, 4);
+  @include sidebar;
 }
 .Footer {
   @include block(3, 4, 1, 4);
