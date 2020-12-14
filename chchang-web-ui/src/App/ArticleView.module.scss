@@ -1,0 +1,43 @@
+.Markdown {
+  font-size: 1.2rem;
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.7rem;
+  }
+  h3 {
+    font-size: 1.5rem;
+  }
+  h4 {
+    font-size: 1.4rem;
+  }
+  color: rgb(51, 51, 51);
+}
+.ArticleView {
+  display: grid;
+  grid-template-rows: 5% 95%;
+  height: 100%;
+  overflow: hidden;
+}
+.Article {
+  background-color: rgb(199, 197, 193);
+  width: 900px;
+}
+.Body {
+  margin-left: 75px;
+  overflow: auto;
+}
+.Body::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(31, 31, 31, 0.3);
+  background-color: #4d4d4d;
+}
+
+.Body::-webkit-scrollbar {
+  width: 0px;
+  background-color: #F5F5F5;
+}
+
+.Body::-webkit-scrollbar-thumb {
+  background-color: #777777;
+}
