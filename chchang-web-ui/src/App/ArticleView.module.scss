@@ -14,7 +14,7 @@
   h4 {
     font-size: 1.4rem;
   }
-  color: $gray-dark;
+  color: $gray-mid;
 }
 $article-view-width: 800px;
 .ArticleView {
@@ -44,4 +44,10 @@ $article-view-width: 800px;
 
 .Body::-webkit-scrollbar-thumb {
   background-color: #777777;
+}
+.Splitter {
+  width: 85%;
+  margin: 0 auto;
+  border-bottom: 1px solid $gray-light;
+
 }

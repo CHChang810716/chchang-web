@@ -25,14 +25,17 @@ const ArticleView = ({regOnFetched, fetch, hasMore}) => {
           loader={<h4>Loading...</h4>}
           scrollableTarget="article-view"
         >{
-          articles.map((art, i) => (<div 
-            key={i} 
-            className={styles.Article}>
-              <ReactMarkdown 
-                className={styles.Markdown}
-              >
-                {art.content}
-              </ReactMarkdown>
+          articles.map((art, i) => (<div>
+            <div 
+              key={i} 
+              className={styles.Article}>
+                <ReactMarkdown 
+                  className={styles.Markdown}
+                >
+                  {art.content}
+                </ReactMarkdown>
+            </div>
+            <div className={styles.Splitter}></div>
           </div>))
         }</InfiniteScroll>
       </div>
