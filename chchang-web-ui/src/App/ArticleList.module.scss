@@ -4,11 +4,11 @@ $item-height: 40px;
 .ArticleList { 
   display: grid;
   grid-template-rows: $item-height 1fr;
-  height: 50%;
+  height: 60%;
   overflow: hidden;
   border-bottom: 2px solid $gray-light;
   margin: 15px;
-  padding: 5px 5px 15px 5px;
+  padding: 5px 5px 10px 5px;
 }
 .ArticleListBody {
   overflow: auto;
@@ -29,6 +29,6 @@ $item-height: 40px;
 .Item {
   height: $item-height;
   display: grid;
-  grid-template-columns: 1fr 7fr;
   font-size: 1.2rem;
+  margin-left: 30%;
 }
