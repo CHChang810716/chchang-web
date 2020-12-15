@@ -1,6 +1,8 @@
+@import './App/Utils.scss';
+
 @mixin block($t, $b, $r, $l) {
-  background: rgb(27, 27, 27);
-  color: rgb(150, 150, 150);
+  background: $gray-dark;
+  color: $white-light;
   grid-row-start: $t;
   grid-row-end: $b;
   grid-column-start: $r;
@@ -15,7 +17,7 @@
 }
 
 .App {
-  background: rgb(70, 70, 70);
+  background: $gray-light;
   width: 100vw;
   height: 100vh;
   display: grid;
@@ -24,6 +26,7 @@
 }
 .Header {
   @include block(1, 2, 1, 4);
+  background: $gray-mid;
 }
 .LSidebar {
   @include block(2, 3, 1, 2);

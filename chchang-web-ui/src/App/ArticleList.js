@@ -4,7 +4,7 @@ const ArticleList = ({getList, regOnIterUpdate}) => {
   return <div className={styles.ArticleList}>
     <div></div>
     <div className={styles.ArticleListBody}>{
-      list.map(meta => <div className={styles.Item}>
+      list.map((meta, i) => <div key={i} className={styles.Item}>
         <div></div>
         <div>{meta.label}</div>
       </div>)

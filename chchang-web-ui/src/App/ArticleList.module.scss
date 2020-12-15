@@ -1,11 +1,14 @@
+@import './Utils.scss';
+
 $item-height: 40px;
 .ArticleList { 
   display: grid;
   grid-template-rows: $item-height 1fr;
   height: 50%;
   overflow: hidden;
-  border: 1px solid white;
+  border-bottom: 2px solid $gray-light;
   margin: 15px;
+  padding: 5px 5px 15px 5px;
 }
 .ArticleListBody {
   overflow: auto;
@@ -27,5 +30,5 @@ $item-height: 40px;
   height: $item-height;
   display: grid;
   grid-template-columns: 1fr 7fr;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
