@@ -10,11 +10,18 @@ const AppContent = ({viewTarget, modelCtrl}) => {
   switch (viewTarget) {
     case 'Articles': 
       return <ArticleView 
-        regOnFetched ={modelCtrl.article.onFetched}
-        fetch        ={modelCtrl.article.fetchMore}
-        hasMore      ={modelCtrl.article.hasMore}
+        regIndexUpdate = {modelCtrl.article.onIndexUpdate}
+        regFetched     = {modelCtrl.article.onFetched}
+        fetch          = {modelCtrl.article.fetchMore}
+        hasMore        = {modelCtrl.article.hasMore}
       />
     case 'Dev log':
+      return <ArticleView 
+        regIndexUpdate = {modelCtrl.devlog.onIndexUpdate}
+        regFetched     = {modelCtrl.devlog.onFetched}
+        fetch          = {modelCtrl.devlog.fetchMore}
+        hasMore        = {modelCtrl.devlog.hasMore}
+      />
     case 'About':
     default:
       return <div></div>
@@ -25,10 +32,16 @@ const AppLSidebar = ({viewTarget, modelCtrl}) => {
   switch (viewTarget) {
     case 'Articles': 
       return <ArticleList
-        getList={modelCtrl.article.getIndex}
-        regOnIterUpdate={modelCtrl.article.onIterUpdate}
+        fetchList     ={modelCtrl.article.fetchIndex}
+        regListUpdate ={modelCtrl.article.onIndexUpdate}
+        regIterUpdate ={modelCtrl.article.onIterUpdate}
       />
     case 'Dev log':
+      return <ArticleList
+        fetchList     ={modelCtrl.devlog.fetchIndex}
+        regListUpdate ={modelCtrl.devlog.onIndexUpdate}
+        regIterUpdate ={modelCtrl.devlog.onIterUpdate}
+      />
     case 'About':
     default:
       return <div></div>

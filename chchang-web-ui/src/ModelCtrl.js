@@ -1,8 +1,10 @@
 import Article from './ModelCtrl/Article'
 import EventEmitter from 'events'
+import Devlog from './ModelCtrl/Devlog'
 class ModelCtrl {
   constructor() {
     this.article = new Article({});
+    this.devlog = new Devlog();
     this.events = new EventEmitter();
     this._viewTargets = [
       'About',

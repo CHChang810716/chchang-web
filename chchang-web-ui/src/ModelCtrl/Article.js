@@ -21,8 +21,11 @@ class Article {
     console.log('hasMore')
     return this.currFetchedIter < this.index.length
   }
-  getIndex = () => {
-    return this.index
+  fetchIndex = () => {
+    // return this.index
+  }
+  onIndexUpdate = (fun) => {
+
   }
   onIterUpdate = (fun) => {
     this.eventsCtrl.on('article-iter-update', fun)

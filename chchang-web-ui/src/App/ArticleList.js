@@ -1,6 +1,11 @@
 import styles from './ArticleList.module.scss'
-const ArticleList = ({getList, regOnIterUpdate}) => {
-  const list = getList()
+import {useState, useEffect} from 'react'
+const ArticleList = ({fetchList, regListUpdate, regIterUpdate}) => {
+  const [list, setList] = useState([])
+  useEffect(()=>{
+    regListUpdate(l=>setList(l))
+    fetchList()
+  }, [regListUpdate, fetchList])
   return <div className={styles.ArticleList}>
     <div></div>
     <div className={styles.ArticleListBody}>{

@@ -3,16 +3,21 @@ import ReactMarkdown from 'react-markdown'
 import InfiniteScroll from "react-infinite-scroll-component";
 import React, {useState, useEffect}from 'react';
 
-const ArticleView = ({regOnFetched, fetch, hasMore}) => {
+const ArticleView = ({
+  regIndexUpdate,
+  regFetched, 
+  fetch, 
+  hasMore
+}) => {
   const [articles, setArticles] = useState([]);
   const [articleNum, setArticleNum] = useState(0);
   useEffect(()=>{
-    regOnFetched((arts) => {
+    regFetched((arts) => {
       setArticles(arts)
       setArticleNum(arts.length)
     })
-    fetch(10)
-  }, [regOnFetched, fetch])
+    regIndexUpdate(() => fetch(10))
+  }, [regFetched, fetch, regIndexUpdate])
   return (
     <div className={styles.ArticleView}>
       <div className={styles.Header}>
