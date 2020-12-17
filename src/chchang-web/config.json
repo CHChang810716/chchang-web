@@ -5,6 +5,9 @@
     },
     "app": {
       "level": "debug"
+    },
+    "router": {
+      "level": "debug"
     }
   }
 }

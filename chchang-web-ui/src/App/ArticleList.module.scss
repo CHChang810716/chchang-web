@@ -1,0 +1,34 @@
+@import './Utils.scss';
+
+$item-height: 40px;
+.ArticleList { 
+  display: grid;
+  grid-template-rows: $item-height 1fr;
+  height: 60%;
+  overflow: hidden;
+  border-bottom: 2px solid $gray-light;
+  margin: 15px;
+  padding: 5px 5px 10px 5px;
+}
+.ArticleListBody {
+  overflow: auto;
+}
+.ArticleListBody::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(31, 31, 31, 0.3);
+  background-color: #4d4d4d;
+}
+
+.ArticleListBody::-webkit-scrollbar {
+  width: 0px;
+  background-color: #F5F5F5;
+}
+
+.ArticleListBody::-webkit-scrollbar-thumb {
+  background-color: #777777;
+}
+.Item {
+  height: $item-height;
+  display: grid;
+  font-size: 1.2rem;
+  margin-left: 30%;
+}

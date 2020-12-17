@@ -1,0 +1,47 @@
+@import './App/Utils.scss';
+
+@mixin block($t, $b, $r, $l) {
+  background: $gray-dark;
+  color: $white-light;
+  grid-row-start: $t;
+  grid-row-end: $b;
+  grid-column-start: $r;
+  grid-column-end: $l;
+  overflow: hidden;
+}
+@mixin sidebar {
+  min-width: 200px;
+}
+@mixin content {
+  min-width: 500px;
+}
+
+.App {
+  background: $gray-light;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 3fr 40fr 2fr;
+  grid-template-columns: 2fr 9fr 2fr;
+}
+.Header {
+  @include block(1, 2, 1, 4);
+  background: $gray-mid;
+}
+.LSidebar {
+  @include block(2, 3, 1, 2);
+  @include sidebar;
+  border-right: 2px solid $gray-light;
+}
+.Content {
+  @include block(2, 3, 2, 3);
+  @include content;
+}
+.RSidebar {
+  @include block(2, 3, 3, 4);
+  @include sidebar;
+}
+.Footer {
+  @include block(3, 4, 1, 4);
+  background: $gray-mid;
+}

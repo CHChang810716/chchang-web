@@ -1,6 +1,7 @@
 #include <pixiu/server.hpp>
 #include <pixiu/response.hpp>
 #include <avalon/app/path.hpp>
+#include <nlohmann/json.hpp>
 using namespace boost::beast;
 
 std::string mime_type(boost::beast::string_view path)
@@ -36,42 +37,65 @@ std::string mime_type(boost::beast::string_view path)
     if(iequals(ext, ".svgz")) return "image/svg+xml";
     return "application/text";
 }
+static auto get_static(const std::string& from_shared) {
+  auto pathfs = avalon::app::install_dir() / "share" / from_shared;
+  if(!boost::filesystem::exists(pathfs)) {
+    throw pixiu::server_bits::error::target_not_found(from_shared);
+  }
+  auto rep = pixiu::make_response(pathfs);
+  rep.apply([&pathfs](auto&& frep){
+    frep.set(http::field::content_type, mime_type(pathfs.string()));
+  });
+  return rep;
+}
+auto& logger() {
+  return pixiu::logger::get("app");
+}
+
+template<class... T>
+using params = pixiu::server_bits::params<T...>;
+
 int main(int argc, char* argv[]) {
   pixiu::logger::config(avalon::app::install_dir() / "etc" / "config.json");
   /**
    * make a http server and listen to 8080 port
    */
   auto server = pixiu::make_server();
-  server.get("/", [](const auto& req) -> pixiu::server_bits::response {
-    pixiu::logger::get("app").debug("root target: {}", req.target().to_string());
-    http::response<http::string_body> rep;
-    rep.body() = "hello world";
-    return pixiu::server_bits::response(rep);
+  server.get("/", [](const auto& req) {
+    return get_static("index.html");
   });
-  server.get("/static/.+", [](const auto& req) -> pixiu::server_bits::response {
-    pixiu::logger::get("app").debug("static target: {}", req.target().to_string());
-    auto pathfs = avalon::app::install_dir() / "share" / req.target().substr(8).to_string();
-    auto path = pathfs.string();
-    boost::beast::error_code ec;
-    http::file_body::value_type body;
-    body.open(
-      path.c_str(), 
-      boost::beast::file_mode::scan, 
-      ec
-    );
-    if(ec) {
-      throw pixiu::server_bits::error::server_error(ec.message());
-    }
-    const auto fsize = body.size();
-    http::response<http::file_body> rep {
-      std::piecewise_construct,
-      std::make_tuple(std::move(body)),
-      std::make_tuple(http::status::ok, req.version())
-    };
-    rep.set(http::field::content_type, mime_type(path));
-    rep.content_length(fsize);
-    return pixiu::server_bits::response(std::move(rep));
+  server.get("/api/v1/hello_world", [](const auto& req) {
+    return pixiu::make_response("hello world");
   });
-  server.listen("0.0.0.0", std::atoi(argv[1]));
-  server.run();
+  server
+    .get("/api/v1/devlog/index", [](const auto& req) {
+      nlohmann::json index = std::vector<std::string>();
+      auto devlogfs = avalon::app::install_dir() / "devlog";
+      logger().debug("get index: {}", devlogfs.string());
+      boost::filesystem::directory_iterator end_iter;
+      for(boost::filesystem::directory_iterator iter (devlogfs); iter != end_iter; ++iter) {
+        auto curr_path = iter->path();
+        logger().debug("current scan: {}", curr_path.string());
+        if(boost::filesystem::is_regular_file(curr_path)) {
+          auto curr_name = curr_path.stem();
+          index.push_back(curr_name.string());
+        }
+      }
+      return pixiu::make_response(index.dump());
+    })
+    .get("/api/v1/devlog/article", params<std::string>("name"),
+      [](const auto& req, const std::string& name){
+        auto article_path = avalon::app::install_dir() 
+          / "devlog" 
+          / fmt::format("{}.md", name)
+        ;
+        logger().debug("get devlog article: {}", article_path.string());
+        return pixiu::make_response(article_path);
+      }
+    )
+    .get("/.+", [](const auto& req) {
+      return get_static(req.target().substr(1).to_string());
+    })
+    .listen("0.0.0.0", std::atoi(argv[1]))
+    .run();
 }

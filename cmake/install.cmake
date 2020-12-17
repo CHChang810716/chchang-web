@@ -67,3 +67,7 @@ if(INSTALL_DEPS)
         COMPONENT Dependencies
     )
 endif()
+install(
+    DIRECTORY devlog
+    DESTINATION ${CMAKE_INSTALL_PREFIX}/
+)
