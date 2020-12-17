@@ -5,7 +5,11 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN cd chchang-web-ui && \
+RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt update && \
+    apt install -y yarn && \
+    cd chchang-web-ui && \
     yarn install && \
     yarn build && \
     cd .. && \
