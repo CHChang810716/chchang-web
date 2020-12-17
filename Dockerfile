@@ -5,7 +5,11 @@ WORKDIR /usr/src/app
 
 COPY . .
 
-RUN mkdir build && cd build && \
+RUN cd chchang-web-ui && \
+    yarn install && \
+    yarn build && \
+    cd .. && \
+    mkdir build && cd build && \
     cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../stage -DBUILD_TEST=OFF && \
     cmake --build . --target install && \
     cd ..
