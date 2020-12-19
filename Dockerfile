@@ -11,6 +11,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     apt install -y yarn && \
     cd chchang-web-ui && \
     yarn install && \
+    export REACT_APP_PORT=$PORT \
     yarn build && \
     cd .. && \
     mkdir build && cd build && \

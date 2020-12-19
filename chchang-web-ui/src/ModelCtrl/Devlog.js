@@ -21,9 +21,10 @@ class Devlog {
     let pmList = []
     for(let i = 0; i < num && this.currFetchedIter + i < this.index.length; i ++) {
       const name = this.index[this.currFetchedIter + i].label;
+      console.log(config.url)
       pmList.push(
         axios.get(
-          `http://${config.url}/api/v1/devlog/article?name=${name}`
+          `${config.url}/api/v1/devlog/article?name=${name}`
         )
       )
     }
@@ -41,7 +42,8 @@ class Devlog {
   }
   fetchIndex = () => {
     console.log('fetchIndex')
-    axios.get(`http://${config.url}/api/v1/devlog/index`).then(
+    console.log(config.url)
+    axios.get(`${config.url}/api/v1/devlog/index`).then(
       (rep)=>{
         this.index = rep.data.map(label => ({label: label}))
         this.eventsCtrl.emit('index-update', this.index)
