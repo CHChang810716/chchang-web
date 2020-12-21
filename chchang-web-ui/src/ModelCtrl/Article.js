@@ -1,10 +1,14 @@
 import EventEmitter from 'events'
 class Article {
+  label = 'Article'
   constructor(api) {
     this.index = []
     this.articles = []
     this.currFetchedIter = 0;
     this.eventsCtrl = new EventEmitter();
+  }
+  init = () => {
+    this.fetchIndex()
   }
   onFetched = (handle) => {
     console.log('onFetched add event')

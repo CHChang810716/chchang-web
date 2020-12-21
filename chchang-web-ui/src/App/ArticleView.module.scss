@@ -16,12 +16,11 @@
   }
   color: $gray-mid;
 }
-$article-view-width: 800px;
 .ArticleView {
   display: grid;
   grid-template-rows: 5% 95%;
   height: 100%;
-  width: $article-view-width;
+  width: $article-width;
   overflow: hidden;
   margin: 0 auto;
 }

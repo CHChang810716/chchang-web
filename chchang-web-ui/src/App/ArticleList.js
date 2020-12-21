@@ -4,7 +4,7 @@ const ArticleList = ({fetchList, regListUpdate, regIterUpdate}) => {
   const [list, setList] = useState([])
   useEffect(()=>{
     regListUpdate(l=>setList(l))
-    fetchList()
+    // fetchList()
   }, [regListUpdate, fetchList])
   return <div className={styles.ArticleList}>
     <div></div>

@@ -16,6 +16,7 @@ const ArticleView = ({
       setArticles(arts)
       setArticleNum(arts.length)
     })
+    console.log('reg index update')
     regIndexUpdate(() => fetch(10))
   }, [regFetched, fetch, regIndexUpdate])
   return (
@@ -30,9 +31,8 @@ const ArticleView = ({
           loader={<h4>Loading...</h4>}
           scrollableTarget="article-view"
         >{
-          articles.map((art, i) => (<div>
+          articles.map((art, i) => (<div key={i}>
             <div 
-              key={i} 
               className={styles.Article}>
                 <ReactMarkdown 
                   className={styles.Markdown}

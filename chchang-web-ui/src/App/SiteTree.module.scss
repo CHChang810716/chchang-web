@@ -1,33 +1,26 @@
-@import './Utils.scss';
-
 $item-height: 40px;
-.ArticleList { 
+.SiteTree { 
   display: grid;
   grid-template-rows: $item-height 1fr;
-  overflow: hidden;
-  width: 300px;
-  overflow-x: auto;
-  margin: 0 auto;
-  padding: 10px;
-}
-.ArticleListBody {
+  height: 50%;
   overflow: auto;
 }
-.ArticleListBody::-webkit-scrollbar-track {
+.SiteTree::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(31, 31, 31, 0.3);
   background-color: #4d4d4d;
 }
 
-.ArticleListBody::-webkit-scrollbar {
+.SiteTree::-webkit-scrollbar {
   width: 0px;
   background-color: #F5F5F5;
 }
 
-.ArticleListBody::-webkit-scrollbar-thumb {
+.SiteTree::-webkit-scrollbar-thumb {
   background-color: #777777;
 }
 .Item {
   height: $item-height;
   display: grid;
-  font-size: 1.1rem;
+  grid-template-columns: 1fr 7fr;
+  font-size: 1.3rem;
 }
