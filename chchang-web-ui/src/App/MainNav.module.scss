@@ -1,11 +1,26 @@
 @import './Utils.scss';
 
 $item-num: 5;
-.MainNav {
-  width: 480px;
+$item-width: 96px;
+$llist-btn-size: 48px;
+.LListBtn {
+  width: $llist-btn-size;
+  height: $llist-btn-size;
+  border: 1px solid $gray-light;
+  margin: auto auto;
+}
+.LListBtnActive {
+  @extend .LListBtn;
+  border: 2px solid $white-dark;
+}
+.ItemList {
   display: grid;
+  width: ($item-width * $item-num) + $llist-btn-size;
   grid-template-columns: repeat($item-num, 1fr);
-  margin-left: 60px;
+  height: 100%;
+}
+.MainNav {
+  margin-left: 30px;
   height: 100%;
 }
 .Item {

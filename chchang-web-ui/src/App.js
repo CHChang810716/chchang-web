@@ -87,14 +87,12 @@ const App = () => {
           />
         </div> : null
       }
-      <div className={styles.Content}> 
-        <AppContent 
-          viewTarget={viewTarget} 
-          modelCtrl={modelCtrl} 
-        />
-      </div>
       {
-        showSideBar || !isPad ? <div className={styles.RSidebar}>
+        !showSideBar || !isPad ? <div className={styles.Content}> 
+          <AppContent 
+            viewTarget={viewTarget} 
+            modelCtrl={modelCtrl} 
+          />
         </div> : null
       }
       <div className={styles.Footer}>
