@@ -53,7 +53,7 @@ class Devlog {
     axios.get(`${config.url}/api/v1/devlog/index`).then(
       (rep)=>{
         console.log('index-update')
-        this.index = rep.data.map(label => ({label: label})).sort().reverse()
+        this.index = rep.data.sort().reverse().map(label => ({label: label}))
         console.log(this.index)
         this.eventsCtrl.emit('index-update', this.index)
       }
