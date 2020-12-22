@@ -9,8 +9,8 @@ class ModelCtrl {
     this.devlog   = new Devlog();
     this.events = new EventEmitter();
     this._viewTargets = [
-      this.about,
-      this.article,
+      // this.about,
+      // this.article,
       this.devlog
     ]
     // this.currTarget = this.about
@@ -32,6 +32,9 @@ class ModelCtrl {
     this.events.on('switch-view', (i, label) => {
       this._viewTargets[i].init();
     })
+  }
+  init = () => {
+    this.switchView(this.defaultViewTargeti())
   }
 }
 export default ModelCtrl

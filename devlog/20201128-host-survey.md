@@ -2,8 +2,8 @@
 Host survey
 ===========
 
-WordPress
----------
+WordPress.com
+-------------
 
 缺點:
 
@@ -13,7 +13,7 @@ WordPress
 優點:
 
 * 今天架站馬上上線
-* 速食
+* 像吃速食餐一樣，想要什麼就點套餐然後隨時可以用
 
 AWS
 ---
@@ -35,10 +35,21 @@ Heroku
 缺點:
 
 * 沒有 100% 的自由
-* 資料庫工具鎖死
-* Spec 複雜
+* 資料庫工具鎖死 (pgSQL)
+* 平台 toolchain 略為反人類
 
 優點:
 
-* 提供 docker 建構的 web host
-* For fun 用戶不綁信用卡永久免費(限制功能流量)
+* 提供 docker 建構的 web host, 也就是說後端 toolchain 完全解放
+* For fun 用戶不需要綁信用卡永久免費，但是限制流量和部分平台功能
+
+Summery
+-------
+
+因為 backend 幾乎是從最底層開始寫(session lifecycle)，所以這個 project 將會經歷漫長的開發時期，本人由於工作因素其實隨時可能半途而廢。
+
+成本顯然是免費優先，畢竟是幾乎是不會營利的系統...
+
+另外考慮到 Pixiu 碼的錘鍊，後端支援 C++ 應該放到第一要務。
+
+2020/11/28 by [C.H. Chang](CHChang810716@gmail.com)

@@ -6,6 +6,7 @@ import MainNav from './App/MainNav'
 import ArticleList from './App/ArticleList'
 import React, {useState, useEffect, useRef, useLayoutEffect} from 'react'
 import {useMediaQuery} from 'react-responsive'
+import DevLogList from './App/DevLogList'
 
 screen1080.label = 1080
 screen0.label = 0
@@ -44,7 +45,7 @@ const AppLSidebar = ({viewTarget, modelCtrl, ...args}) => {
         regIterUpdate ={modelCtrl.article.onIterUpdate}
       />
     case modelCtrl.devlog.label:
-      return <ArticleList
+      return <DevLogList
         fetchList     ={modelCtrl.devlog.fetchIndex}
         regListUpdate ={modelCtrl.devlog.onIndexUpdate}
         regIterUpdate ={modelCtrl.devlog.onIterUpdate}
@@ -65,6 +66,7 @@ const App = () => {
       console.log(vt)
       setViewTarget(vt)
     })
+    modelCtrl.init()
   }, [])
   const [showSideBar, setShowSideBar] = useState(!isPad)
   const app = useRef();
