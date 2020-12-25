@@ -10,18 +10,20 @@ const MainNav = ({
   console.log(showLListBtn)
   return (
     <div className={styles.MainNav}> 
-      <div className={styles.ItemList}>
+      <div className={showLListBtn ? styles.ItemListWithLLBtn : styles.ItemList}>
         {
           showLListBtn ? 
-            <div className={lListBtnActive ? 
-                styles.LListBtnActive : 
-                styles.LListBtn
-              }
-              onClick={() => {
-                setLListBtnActive(!lListBtnActive)
-                onLListBtnActive(!lListBtnActive)
-              }}
-            ></div> : 
+            <div className={styles.Item}>
+              <div className={lListBtnActive ? 
+                  styles.LListBtnActive : 
+                  styles.LListBtn
+                }
+                onClick={() => {
+                  setLListBtnActive(!lListBtnActive)
+                  onLListBtnActive(!lListBtnActive)
+                }}
+              ></div>
+            </div> : 
             null
         }
         {
@@ -39,7 +41,10 @@ const MainNav = ({
                   onSwitch(i)
                 }}
               >
-                {it}
+                <div className={styles.ItemText}>
+                  {it}
+
+                </div>
               </div>
           ) 
         }

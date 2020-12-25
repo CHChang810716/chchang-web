@@ -10,13 +10,16 @@
 }
 @mixin sidebar {
 }
+.Hidden {
+  display: none;
+}
 .App {
   background: $gray-dark;
   width: 100vw;
   height: 100vh;
   display: grid;
   grid-template-rows: 3fr 40fr 2fr;
-  grid-template-columns: 1fr $article-width 1fr;
+  grid-template-columns: 1fr $article-max-width 1fr;
 }
 .Header {
   @include block(1, 2, 1, 4);
