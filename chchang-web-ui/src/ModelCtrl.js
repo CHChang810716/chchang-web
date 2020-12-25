@@ -29,7 +29,7 @@ class ModelCtrl {
   init = async () => {
     this.mainNavItemsBinder.set(
       [
-        this.about,
+        // this.about,
         // this.article,
         this.devlog
       ]
