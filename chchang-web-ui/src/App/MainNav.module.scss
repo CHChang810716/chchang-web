@@ -1,13 +1,14 @@
 @import './Utils.scss';
 
 $item-num: 5;
-$item-width: 96px;
-$llist-btn-size: 48px;
+$item-max-width: 96px;
+$item-width: 28vw;
+$llist-btn-max-size: 48px;
+$llist-btn-size: 14vw;
 .LListBtn {
-  width: $llist-btn-size;
-  height: $llist-btn-size;
+  width:  100%;
+  height: 100%;
   border: 1px solid $gray-light;
-  margin: auto auto;
 }
 .LListBtnActive {
   @extend .LListBtn;
@@ -15,19 +16,37 @@ $llist-btn-size: 48px;
 }
 .ItemList {
   display: grid;
-  width: ($item-width * $item-num) + $llist-btn-size;
+  width: $item-width * $item-num;
+  max-width:$item-max-width * $item-num; 
   grid-template-columns: repeat($item-num, 1fr);
+  height: 100%;
+  margin-left: 3vw;
+}
+.ItemListWithLLBtn {
+  display: grid;
+  width: ($item-width * $item-num) + $llist-btn-size;
+  max-width: ($item-max-width * $item-num) + $llist-btn-max-size;
+  grid-template-columns: unquote("min(#{$llist-btn-size}, #{$llist-btn-max-size)})") repeat($item-num, 1fr);
   height: 100%;
 }
 .MainNav {
-  margin-left: 30px;
   height: 100%;
 }
+@mixin vertical-center {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
 .Item {
+  width:  80%;
+  height: 80%;
   margin: auto;
+}
+.ItemText {
   font-size: 1.1rem;
   font-weight: bold;
-  padding: 12px;
+  @include vertical-center;
+  text-align: center;
 }
 .SelectedItem {
   @extend .Item;

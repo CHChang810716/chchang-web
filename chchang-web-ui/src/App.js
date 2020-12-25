@@ -7,7 +7,8 @@ import ArticleList from './App/ArticleList'
 import React, {useEffect} from 'react'
 import {useState} from './puppet'
 import DevLogList from './App/DevLogList'
-import {isPad} from './App/screenLevel'
+import {pad} from './App/screenDecl'
+import {useMediaQuery} from 'react-responsive'
 
 screen1080.label = 1080
 screen0.label = 0
@@ -50,8 +51,8 @@ const AppLSidebar = ({...args}) => {
   }
 }
 const App = () => {
-  const pad = isPad();
-  const styles = pad ? screen0 : screen1080; 
+  const isPad = useMediaQuery(pad);
+  const styles = isPad ? screen0 : screen1080; 
   useEffect(()=>{
     modelCtrl.init();
   }, [])
@@ -66,12 +67,12 @@ const App = () => {
         />
       </div>
       {
-        showLSidebar || !pad ? <div className={styles.LSidebar}>
+        showLSidebar || !isPad ? <div className={styles.LSidebar}>
           <AppLSidebar />
         </div> : null
       }
       {
-        !showLSidebar || !pad ? <div className={styles.Content}> 
+        !showLSidebar || !isPad ? <div className={styles.Content}> 
           <AppContent />
         </div> : null
       }
