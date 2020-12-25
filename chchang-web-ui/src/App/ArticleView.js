@@ -1,32 +1,19 @@
 import styles from './ArticleView.module.scss'
 import ReactMarkdown from 'react-markdown'
 import InfiniteScroll from "react-infinite-scroll-component";
-import React, {useState, useEffect}from 'react';
+import React, {useEffect}from 'react';
+import {useState} from '../puppet'
 
-const ArticleView = ({
-  regIndexUpdate,
-  regFetched, 
-  fetch, 
-  hasMore
-}) => {
-  const [articles, setArticles] = useState([]);
-  const [articleNum, setArticleNum] = useState(0);
-  useEffect(()=>{
-    regFetched((arts) => {
-      setArticles(arts)
-      setArticleNum(arts.length)
-    })
-    console.log('reg index update')
-    regIndexUpdate(() => fetch(10))
-  }, [regFetched, fetch, regIndexUpdate])
+const ArticleView = ({articlesBinder, fetchMore, hasMore}) => {
+  const [articles] = useState(articlesBinder, 'ArticleView');
   return (
     <div className={styles.ArticleView}>
       <div className={styles.Header}>
       </div>
       <div className={styles.Body} id="article-view">
         <InfiniteScroll 
-          dataLength={articleNum}
-          next={fetch}
+          dataLength={articles.length}
+          next={fetchMore}
           hasMore={hasMore()}
           loader={<h4>Loading...</h4>}
           scrollableTarget="article-view"

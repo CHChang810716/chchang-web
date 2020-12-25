@@ -1,28 +1,26 @@
 import styles from './MainNav.module.scss'
-import React, {useState, useEffect} from 'react'
+import React from 'react'
+import {useState} from '../puppet'
+import {pad} from './screenDecl'
+import {useMediaQuery} from 'react-responsive'
 
-const MainNav = ({
-  items, defaultIter, onSwitch, 
-  showLListBtn, onLListBtnActive
-}) => {
-  const [iter, setIter] = useState(defaultIter);
-  const [lListBtnActive, setLListBtnActive] = useState(false);
-  console.log(showLListBtn)
+const MainNav = ({iterBinder, itemsBinder, lListBtnBinder}) => {
+  const isPad = useMediaQuery(pad)
+  const [iter, setIter] = useState(iterBinder, 'MainNav');
+  const [items, setItems] = useState(itemsBinder, 'MainNav');
+  const [lListBtn, setlListBtn] = useState(lListBtnBinder, 'MainNav');
   return (
     <div className={styles.MainNav}> 
-      <div className={showLListBtn ? styles.ItemListWithLLBtn : styles.ItemList}>
+      <div className={isPad ? styles.ItemListWithLLBtn : styles.ItemList}>
         {
-          showLListBtn ? 
+          isPad ?
             <div className={styles.Item}>
-              <div className={lListBtnActive ? 
+              <div className={lListBtn ? 
                   styles.LListBtnActive : 
                   styles.LListBtn
                 }
-                onClick={() => {
-                  setLListBtnActive(!lListBtnActive)
-                  onLListBtnActive(!lListBtnActive)
-                }}
-              ></div>
+                onClick={() => setlListBtn(!lListBtn)}
+              ></div> 
             </div> : 
             null
         }
@@ -38,12 +36,10 @@ const MainNav = ({
                 )}
                 onClick={() => {
                   setIter(i)
-                  onSwitch(i)
                 }}
               >
                 <div className={styles.ItemText}>
-                  {it}
-
+                  {it.label}
                 </div>
               </div>
           ) 
