@@ -24,11 +24,11 @@ class Devlog {
     this.currFetchedIter = 0;
     
     this.fetchMore(1)
-  })
+  }, 'devlog-index')
   articles = new State([], (arts) => {
     this.articleNum.set(arts.length)
-  })
-  articleNum = new State(0)
+  }, 'devlog-articles')
+  articleNum = new State(0, null, 'devlog-articlenum')
   fetchMore = (num) => {
     if(this.currFetchedIter < 0) return;
     

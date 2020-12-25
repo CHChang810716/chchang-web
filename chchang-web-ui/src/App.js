@@ -15,7 +15,7 @@ screen0.label = 0
 
 const modelCtrl = new ModelCtrl();
 const AppContent = ({}) => {
-  const [feature] = useState(modelCtrl.currFeature)
+  const [feature] = useState(modelCtrl.currFeature, 'AppContent')
   
   switch (feature) {
     case modelCtrl.article: 
@@ -36,7 +36,7 @@ const AppContent = ({}) => {
   }
 }
 const AppLSidebar = ({...args}) => {
-  const [feature] = useState(modelCtrl.currFeature)
+  const [feature] = useState(modelCtrl.currFeature, 'AppLSidebar')
   
   switch (feature) {
     case modelCtrl.article: 
@@ -58,7 +58,7 @@ const App = () => {
   useEffect(()=>{
     modelCtrl.init();
   }, [])
-  const [showLSidebar] = useState(modelCtrl.mainNavLListBtnBinder)
+  const [showLSidebar] = useState(modelCtrl.mainNavLListBtnBinder, 'App')
   return (
     <div className={styles.App}>
       <div className={styles.Header}>
@@ -68,16 +68,16 @@ const App = () => {
           lListBtnBinder={modelCtrl.mainNavLListBtnBinder}
         />
       </div>
-      <div className={
-        `${styles.LSidebar} ${showLSidebar || !isPad ? '' : styles.Hidden}`
-      }> 
-        <AppLSidebar />
-      </div>
-      <div className={
-        `${styles.Content} ${!showLSidebar || !isPad ? '' : styles.Hidden}`
-      }> 
-        <AppContent />
-      </div>
+      {
+        showLSidebar || !isPad ? <div className={`${styles.LSidebar}`}> 
+          <AppLSidebar />
+        </div> : null
+      }
+      {
+        !showLSidebar || !isPad ? <div className={`${styles.Content}`}> 
+          <AppContent />
+        </div> : null
+      }
       <div className={styles.Footer}>
       </div>
     </div>

@@ -6,9 +6,9 @@ import {useMediaQuery} from 'react-responsive'
 
 const MainNav = ({iterBinder, itemsBinder, lListBtnBinder}) => {
   const isPad = useMediaQuery(pad)
-  const [iter, setIter] = useState(iterBinder);
-  const [items, setItems] = useState(itemsBinder);
-  const [lListBtn, setlListBtn] = useState(lListBtnBinder);
+  const [iter, setIter] = useState(iterBinder, 'MainNav');
+  const [items, setItems] = useState(itemsBinder, 'MainNav');
+  const [lListBtn, setlListBtn] = useState(lListBtnBinder, 'MainNav');
   return (
     <div className={styles.MainNav}> 
       <div className={isPad ? styles.ItemListWithLLBtn : styles.ItemList}>

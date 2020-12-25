@@ -18,12 +18,13 @@ class ModelCtrl {
       
       return this.currFeature.val.init();
     })
-  })
+  }, 'mainNavIter')
   mainNavItemsBinder    = new State([], () => {
     this.mainNavIterBinder.set(0)
-  })
-  mainNavLListBtnBinder = new State(false)
-  currFeature           = new State('')
+  }, 'mainNavItems')
+  mainNavLListBtnBinder = new State(false, null, 'mainNavLListBtn')
+  currFeature           = new State('', null, 'currFeature')
+
 
   init = async () => {
     this.mainNavItemsBinder.set(

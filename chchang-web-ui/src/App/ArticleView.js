@@ -5,7 +5,7 @@ import React, {useEffect}from 'react';
 import {useState} from '../puppet'
 
 const ArticleView = ({articlesBinder, fetchMore, hasMore}) => {
-  const [articles] = useState(articlesBinder);
+  const [articles] = useState(articlesBinder, 'ArticleView');
   return (
     <div className={styles.ArticleView}>
       <div className={styles.Header}>

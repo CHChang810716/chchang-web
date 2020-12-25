@@ -5,7 +5,7 @@ const DevLogList = (props) => {
   return GeneralList(props, styles, (meta, i, length) => <div key={i} className={styles.Item}>
     <div>Day {length - i}</div>
     <div>{meta.label.split('-').slice(1).join(' ')}</div>
-  </div>)
+  </div>, 'DevLogList')
 }
 
 export default DevLogList
