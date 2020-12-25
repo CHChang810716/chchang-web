@@ -11,18 +11,18 @@ class Article {
     this.fetchIndex()
   }
   onFetched = (handle) => {
-    console.log('onFetched add event')
+    
     this.eventsCtrl.on('fetched', handle);
   }
   fetchMore = (num) => {
-    console.log(this)
+    
     if(num === undefined) {
       num = 3;
     }
-    console.log('fetchMore')
+    
   }
   hasMore = () => {
-    console.log('hasMore')
+    
     return this.currFetchedIter < this.index.length
   }
   fetchIndex = () => {

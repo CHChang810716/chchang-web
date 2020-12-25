@@ -10,6 +10,9 @@
 }
 @mixin sidebar {
 }
+.Hidden {
+  display: none;
+}
 .App {
   background: $gray-dark;
   width: 100vw;

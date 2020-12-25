@@ -10,9 +10,12 @@ class ModelCtrl {
     this.devlog   = new Devlog();
   }
   mainNavIterBinder     = new State(-1, i => {
+    
     return this.currFeature.set(
       this.mainNavItemsBinder.val[i]
     ).then(() => {
+    
+      
       return this.currFeature.val.init();
     })
   })

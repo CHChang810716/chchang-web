@@ -13,7 +13,10 @@ class State {
     this.setters.push(setter)
   }
   set = (val) => {
-    return Promise.all(this.setters.map(setter => setter(val)))
+    
+    return Promise.all(this.setters.map(setter => {
+      setter(val)
+    }))
     .then(() => {
       this.val = val
     })
@@ -29,6 +32,11 @@ const useState = (mcbinder) => {
     return new Promise((resolve, reject) =>{
       cbRef.current = resolve;
       setter(val)
+      // try {
+      //   setter(val)
+      // } catch(e) {
+      //   
+      // }
     })
   }
   React.useEffect(()=> {

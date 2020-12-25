@@ -16,6 +16,7 @@ screen0.label = 0
 const modelCtrl = new ModelCtrl();
 const AppContent = ({}) => {
   const [feature] = useState(modelCtrl.currFeature)
+  
   switch (feature) {
     case modelCtrl.article: 
       return <ArticleView 
@@ -36,6 +37,7 @@ const AppContent = ({}) => {
 }
 const AppLSidebar = ({...args}) => {
   const [feature] = useState(modelCtrl.currFeature)
+  
   switch (feature) {
     case modelCtrl.article: 
       return <ArticleList
@@ -66,16 +68,16 @@ const App = () => {
           lListBtnBinder={modelCtrl.mainNavLListBtnBinder}
         />
       </div>
-      {
-        showLSidebar || !isPad ? <div className={styles.LSidebar}>
-          <AppLSidebar />
-        </div> : null
-      }
-      {
-        !showLSidebar || !isPad ? <div className={styles.Content}> 
-          <AppContent />
-        </div> : null
-      }
+      <div className={
+        `${styles.LSidebar} ${showLSidebar || !isPad ? '' : styles.Hidden}`
+      }> 
+        <AppLSidebar />
+      </div>
+      <div className={
+        `${styles.Content} ${!showLSidebar || !isPad ? '' : styles.Hidden}`
+      }> 
+        <AppContent />
+      </div>
       <div className={styles.Footer}>
       </div>
     </div>

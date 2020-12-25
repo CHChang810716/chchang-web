@@ -22,7 +22,7 @@ class Devlog {
   }
   index = new State([], () => {
     this.currFetchedIter = 0;
-    console.log(this.currFetchedIter)
+    
     this.fetchMore(1)
   })
   articles = new State([], (arts) => {
@@ -31,16 +31,16 @@ class Devlog {
   articleNum = new State(0)
   fetchMore = (num) => {
     if(this.currFetchedIter < 0) return;
-    console.log('fetchMore')
+    
     if(num === undefined) {
       num = 3;
     }
     let pmList = []
     let i = 0;
     for(i = 0; i < num && this.currFetchedIter + i < this.index.val.length; i ++) {
-      console.log('fetch')
+      
       const name = this.index.val[this.currFetchedIter + i].label;
-      console.log(config.url)
+      
       pmList.push(
         axios.get(
           `${config.url}/api/v1/devlog/article?name=${name}`
@@ -55,15 +55,15 @@ class Devlog {
     })
   }
   hasMore = () => {
-    console.log('hasMore')
+    
     if(this.currFetchedIter < 0) return false;
     return this.currFetchedIter < this.index.val.length
   }
   // onIndexUpdate = (fun) => {
-  //   console.log('onIndexUpdate')
+  //   
   //   this.eventsCtrl.on('index-update', fun)
   //   // this.eventsCtrl.emit('index-update', this.index)
-  //   console.log(this.index)
+  //   
   //   fun(this.index)
   // }
   // onIterUpdate = (fun) => {
