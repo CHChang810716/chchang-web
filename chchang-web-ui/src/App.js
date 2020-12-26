@@ -16,7 +16,6 @@ screen0.label = 0
 const modelCtrl = new ModelCtrl();
 const AppContent = ({}) => {
   const [feature] = useState(modelCtrl.currFeature, 'AppContent')
-  
   switch (feature) {
     // case modelCtrl.article: 
     //   return <ArticleView 
@@ -31,6 +30,7 @@ const AppContent = ({}) => {
         focusIndexBinder = {modelCtrl.devlog.focusIndex}
         fetchMore        = {modelCtrl.devlog.fetchMore}
         hasMore          = {modelCtrl.devlog.hasMore}
+        refContainer     = {modelCtrl.devlog.articleDomRef}
       />
     case modelCtrl.about:
     default:
@@ -49,8 +49,9 @@ const AppLSidebar = ({...args}) => {
       />
     case modelCtrl.devlog:
       return <DevLogList 
-        listBinder = {modelCtrl.devlog.index}
-        focusIndexBinder = {modelCtrl.devlog.focusIndex}
+        listBinder        = {modelCtrl.devlog.index}
+        focusIndexBinder  = {modelCtrl.devlog.focusIndex}
+        articleRefs       = {modelCtrl.devlog.articleDomRef}
       />
     case modelCtrl.about:
     default:

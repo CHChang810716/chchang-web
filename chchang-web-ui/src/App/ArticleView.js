@@ -1,17 +1,19 @@
-import styles from './ArticleView.module.scss'
-import ReactMarkdown from 'react-markdown'
+import styles         from './ArticleView.module.scss'
+import ReactMarkdown  from 'react-markdown'
 import InfiniteScroll from "react-infinite-scroll-component";
-import React, {useEffect}from 'react';
-import {useState} from '../puppet'
-import { InView } from 'react-intersection-observer';
+import React          from 'react';
+import { useState }   from '../puppet'
+import { InView }     from 'react-intersection-observer';
 
 const ArticleView = ({
   articlesBinder, 
   focusIndexBinder, 
-  fetchMore, hasMore
+  fetchMore, hasMore,
+  refContainer
 }) => {
-  console.log(focusIndexBinder)
   const [articles] = useState(articlesBinder, 'ArticleView');
+  const [focusIndex, setFocusIndex] = useState(focusIndexBinder, 'ArticleView')
+  
   return (
     <div className={styles.ArticleView}>
       <div className={styles.Header}>
@@ -25,19 +27,18 @@ const ArticleView = ({
           scrollableTarget="article-view"
         >{
           articles.map((art, i) => (<div key={i}>
-            <InView as="div" onChange={(inView, entry) => {
-              if(inView && !focusIndexBinder.val.has(i)) {
-                let index = new Set(focusIndexBinder.val)
-                index.add(i)
-                focusIndexBinder.set(index)
-              }
-              if(!inView && focusIndexBinder.val.has(i)) {
-                let index = new Set(focusIndexBinder.val)
-                index.delete(i)
-                focusIndexBinder.set(index)
-              }
-              console.log(`view: ${i}, in: ${inView}`)
-            }}
+            <InView ref={r => refContainer.add(i, r)} as="div" onChange={(inView, entry) => {
+                if(inView && !focusIndex.has(i)) {
+                  let index = new Set(focusIndex)
+                  index.add(i)
+                  setFocusIndex(index)
+                }
+                if(!inView && focusIndex.has(i)) {
+                  let index = new Set(focusIndex)
+                  index.delete(i)
+                  setFocusIndex(index)
+                }
+              }}
               className={styles.Article}>
                 <ReactMarkdown 
                   className={styles.Markdown}

@@ -2,6 +2,15 @@ import axios from 'axios'
 import config from './config'
 import {State} from '../puppet'
 // import makeid from '../makeid'
+class RefSet {
+  add = (i, ref) => {
+    this._data[i] = ref
+  }
+  get = (i) => {
+    return this._data[i]
+  }
+  _data = []
+}
 class Devlog {
   
   constructor(api) {
@@ -60,6 +69,7 @@ class Devlog {
   }, 'devlog-articles')
   articleNum      = new State(0, null, 'devlog-articlenum')
   focusIndex      = new State(new Set(), null, 'devlog-focusindex')
+  articleDomRef   = new RefSet();
 }
 
 export default Devlog
