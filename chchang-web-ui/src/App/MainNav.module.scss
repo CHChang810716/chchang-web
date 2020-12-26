@@ -8,10 +8,6 @@ $llist-btn-size: 14vw;
 .LListBtn {
   margin: auto;
 }
-// .LListBtnActive {
-//   @extend .LListBtn;
-//   background-color: $gray-light;
-// }
 .ItemList {
   display: grid;
   width: $item-width * $item-num;

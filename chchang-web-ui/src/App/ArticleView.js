@@ -3,8 +3,14 @@ import ReactMarkdown from 'react-markdown'
 import InfiniteScroll from "react-infinite-scroll-component";
 import React, {useEffect}from 'react';
 import {useState} from '../puppet'
+import { InView } from 'react-intersection-observer';
 
-const ArticleView = ({articlesBinder, fetchMore, hasMore}) => {
+const ArticleView = ({
+  articlesBinder, 
+  focusIndexBinder, 
+  fetchMore, hasMore
+}) => {
+  console.log(focusIndexBinder)
   const [articles] = useState(articlesBinder, 'ArticleView');
   return (
     <div className={styles.ArticleView}>
@@ -19,14 +25,26 @@ const ArticleView = ({articlesBinder, fetchMore, hasMore}) => {
           scrollableTarget="article-view"
         >{
           articles.map((art, i) => (<div key={i}>
-            <div 
+            <InView as="div" onChange={(inView, entry) => {
+              if(inView && !focusIndexBinder.val.has(i)) {
+                let index = new Set(focusIndexBinder.val)
+                index.add(i)
+                focusIndexBinder.set(index)
+              }
+              if(!inView && focusIndexBinder.val.has(i)) {
+                let index = new Set(focusIndexBinder.val)
+                index.delete(i)
+                focusIndexBinder.set(index)
+              }
+              console.log(`view: ${i}, in: ${inView}`)
+            }}
               className={styles.Article}>
                 <ReactMarkdown 
                   className={styles.Markdown}
                 >
                   {art.content}
                 </ReactMarkdown>
-            </div>
+            </InView>
             <div className={styles.Splitter}></div>
           </div>))
         }</InfiniteScroll>

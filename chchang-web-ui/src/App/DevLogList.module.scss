@@ -35,4 +35,11 @@ $item-height: 40px;
   display: grid;
   font-size: 1.15rem;
   grid-template-columns: 1fr 4fr;
+  div:nth-child(n) {
+    margin: auto;
+  }
+}
+.FocusedItem {
+  @extend .Item;
+  background: $gray-mid;
 }

@@ -17,7 +17,7 @@ class State {
     this.setters.delete(setter)
   }
   set = (val) => {
-    console.log(`set ${this.debug_id}`)
+    // console.log(`set ${this.debug_id}`)
     return Promise.all(Array.from(this.setters.values()).map(setter => {
       return setter(val)
     }))
@@ -39,10 +39,10 @@ const useState = (mcbinder, debug_context) => {
     })
   }
   React.useEffect(()=> {
-    console.log(`${debug_context} ${mcbinder.debug_id} link`)
+    // console.log(`${debug_context} ${mcbinder.debug_id} link`)
     mcbinder.link(setThen)
     return () => {
-      console.log(`${debug_context} ${mcbinder.debug_id} release`)
+      // console.log(`${debug_context} ${mcbinder.debug_id} release`)
       mcbinder.unlink(setThen)
     }
   }, [])

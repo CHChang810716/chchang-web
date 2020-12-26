@@ -18,15 +18,17 @@ const AppContent = ({}) => {
   const [feature] = useState(modelCtrl.currFeature, 'AppContent')
   
   switch (feature) {
-    case modelCtrl.article: 
-      return <ArticleView 
-        articlesBinder   = {modelCtrl.article.articles}
-        fetchMore        = {modelCtrl.article.fetchMore}
-        hasMore          = {modelCtrl.article.hasMore}
-      />
+    // case modelCtrl.article: 
+    //   return <ArticleView 
+    //     articlesBinder   = {modelCtrl.article.articles}
+    //     focusIndexBinder = {modelCtrl.article.focusIndex}
+    //     fetchMore        = {modelCtrl.article.fetchMore}
+    //     hasMore          = {modelCtrl.article.hasMore}
+    //   />
     case modelCtrl.devlog:
       return <ArticleView 
         articlesBinder   = {modelCtrl.devlog.articles}
+        focusIndexBinder = {modelCtrl.devlog.focusIndex}
         fetchMore        = {modelCtrl.devlog.fetchMore}
         hasMore          = {modelCtrl.devlog.hasMore}
       />
@@ -46,7 +48,10 @@ const AppLSidebar = ({...args}) => {
         regIterUpdate ={modelCtrl.article.onIterUpdate}
       />
     case modelCtrl.devlog:
-      return <DevLogList listBinder = {modelCtrl.devlog.index}/>
+      return <DevLogList 
+        listBinder = {modelCtrl.devlog.index}
+        focusIndexBinder = {modelCtrl.devlog.focusIndex}
+      />
     case modelCtrl.about:
     default:
       return <div></div>
