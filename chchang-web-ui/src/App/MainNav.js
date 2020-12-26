@@ -3,6 +3,7 @@ import React from 'react'
 import {useState} from '../puppet'
 import {pad} from './screenDecl'
 import {useMediaQuery} from 'react-responsive'
+import {FiMenu} from 'react-icons/fi'
 
 const MainNav = ({iterBinder, itemsBinder, lListBtnBinder}) => {
   const isPad = useMediaQuery(pad)
@@ -14,13 +15,14 @@ const MainNav = ({iterBinder, itemsBinder, lListBtnBinder}) => {
       <div className={isPad ? styles.ItemListWithLLBtn : styles.ItemList}>
         {
           isPad ?
-            <div className={styles.Item}>
-              <div className={lListBtn ? 
-                  styles.LListBtnActive : 
-                  styles.LListBtn
-                }
+            <div className={lListBtn?
+              styles.SelectedItem :
+              styles.Item
+            }>
+              <FiMenu className={styles.LListBtn} 
+                size={"100%"}
                 onClick={() => setlListBtn(!lListBtn)}
-              ></div> 
+              />
             </div> : 
             null
         }

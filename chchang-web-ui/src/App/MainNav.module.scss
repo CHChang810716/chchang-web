@@ -6,14 +6,12 @@ $item-width: 28vw;
 $llist-btn-max-size: 48px;
 $llist-btn-size: 14vw;
 .LListBtn {
-  width:  100%;
-  height: 100%;
-  border: 1px solid $gray-light;
+  margin: auto;
 }
-.LListBtnActive {
-  @extend .LListBtn;
-  border: 2px solid $white-dark;
-}
+// .LListBtnActive {
+//   @extend .LListBtn;
+//   background-color: $gray-light;
+// }
 .ItemList {
   display: grid;
   width: $item-width * $item-num;
@@ -38,9 +36,10 @@ $llist-btn-size: 14vw;
   transform: translateY(-50%);
 }
 .Item {
-  width:  80%;
-  height: 80%;
+  width:  85%;
+  height: 85%;
   margin: auto;
+  border-radius: 8px;
 }
 .ItemText {
   font-size: 1.1rem;
