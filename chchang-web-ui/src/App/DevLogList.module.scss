@@ -38,6 +38,7 @@ $item-height: 40px;
   div:nth-child(n) {
     margin: auto;
   }
+  cursor: pointer;
 }
 .FocusedItem {
   @extend .Item;

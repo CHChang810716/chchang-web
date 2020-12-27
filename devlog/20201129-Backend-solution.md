@@ -35,4 +35,4 @@ Current task queue
 * Heroku docker config survey
 * pgSQL ORM library survey
 
-2020/11/29 by [C.H. Chang](CHChang810716@gmail.com)
+2020/11/29 by [C.H. Chang](mailto:CHChang810716@gmail.com)

@@ -52,4 +52,4 @@ Summery
 
 另外考慮到 Pixiu 碼的錘鍊，後端支援 C++ 應該放到第一要務。
 
-2020/11/28 by [C.H. Chang](CHChang810716@gmail.com)
+2020/11/28 by [C.H. Chang](mailto:CHChang810716@gmail.com)

@@ -4,6 +4,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import React          from 'react';
 import { useState }   from '../puppet'
 import { InView }     from 'react-intersection-observer';
+import gfm            from 'remark-gfm';
+import simplePlantUML from '@akebifiky/remark-simple-plantuml'
 
 const ArticleView = ({
   articlesBinder, 
@@ -42,6 +44,7 @@ const ArticleView = ({
               className={styles.Article}>
                 <ReactMarkdown 
                   className={styles.Markdown}
+                  plugins={[gfm, simplePlantUML]}
                 >
                   {art.content}
                 </ReactMarkdown>

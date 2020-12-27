@@ -4,5 +4,12 @@ target_link_libraries(${AKT_TARGET} PUBLIC
     ${AKT_CHILD_TARGETS}
     pixiu::pixiu-server
     Boost::coroutine
+    Boost::locale
 )
+if(WIN32)
+    target_link_libraries(${AKT_TARGET} PUBLIC 
+        ${AKT_CHILD_TARGETS}
+        iconv
+    )
+endif()
 akt_vscode_add_to_launch(${AKT_TARGET})

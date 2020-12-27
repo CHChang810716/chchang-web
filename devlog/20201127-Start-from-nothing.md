@@ -41,4 +41,4 @@ Not sure
 * Vue.js? React?
 * Finencial support?
 
-2020/11/27 by [C.H. Chang](CHChang810716@gmail.com)
+2020/11/27 by [C.H. Chang](mailto:CHChang810716@gmail.com)
