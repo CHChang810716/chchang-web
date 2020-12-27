@@ -79,11 +79,9 @@ const App = () => {
           <AppLSidebar />
         </div> : null
       }
-      {
-        !showLSidebar || !isPad ? <div className={`${styles.Content}`}> 
-          <AppContent />
-        </div> : null
-      }
+      <div className={`${styles.Content}`}> 
+        <AppContent />
+      </div>
       <div className={styles.Footer}>
       </div>
     </div>

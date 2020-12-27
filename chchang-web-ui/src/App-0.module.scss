@@ -4,6 +4,8 @@
   color: $white-light;
   grid-row-start: $t;
   grid-row-end: $b;
+  grid-column-start: 1;
+  grid-column-end: 2;
   overflow: hidden;
 }
 @mixin sidebar {
@@ -25,9 +27,13 @@
 .LSidebar {
   @include block(2, 3);
   @include sidebar;
+  z-index: 1;
+  background: $gray-dark;
+  opacity: 0.95;
 }
 .Content {
   @include block(2, 3);
+  z-index: 0;
 }
 .RSidebar {
   @include block(2, 3);
