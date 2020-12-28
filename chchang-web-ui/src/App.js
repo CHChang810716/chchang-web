@@ -51,6 +51,7 @@ const AppLSidebar = ({...args}) => {
       return <DevLogList 
         listBinder        = {modelCtrl.devlog.index}
         focusIndexBinder  = {modelCtrl.devlog.focusIndex}
+        lListBtnBinder    = {modelCtrl.mainNavLListBtnBinder}
         articleRefs       = {modelCtrl.devlog.articleDomRef}
       />
     case modelCtrl.about:

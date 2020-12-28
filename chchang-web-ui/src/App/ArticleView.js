@@ -6,6 +6,7 @@ import { useState }   from '../puppet'
 import { InView }     from 'react-intersection-observer';
 import gfm            from 'remark-gfm';
 import simplePlantUML from '@akebifiky/remark-simple-plantuml'
+import { useId } from "react-id-generator";
 
 const ArticleView = ({
   articlesBinder, 
@@ -13,20 +14,20 @@ const ArticleView = ({
   fetchMore, hasMore,
   refContainer
 }) => {
+  const [infscrollid] = useId();
   const [articles] = useState(articlesBinder, 'ArticleView');
   const [focusIndex, setFocusIndex] = useState(focusIndexBinder, 'ArticleView')
-  
   return (
     <div className={styles.ArticleView}>
       <div className={styles.Header}>
       </div>
-      <div className={styles.Body} id="article-view">
+      <div className={styles.Body} id={infscrollid}>
         <InfiniteScroll 
           dataLength={articles.length}
           next={fetchMore}
           hasMore={hasMore()}
           loader={<h4>Loading...</h4>}
-          scrollableTarget="article-view"
+          scrollableTarget={infscrollid}
         >{
           articles.map((art, i) => (<div key={i}>
             <InView ref={r => refContainer.add(i, r)} as="div" onChange={(inView, entry) => {

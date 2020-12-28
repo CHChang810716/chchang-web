@@ -1,8 +1,9 @@
 import styles from './DevLogList.module.scss'
 import GeneralList from './GeneralList.js'
 import {useState} from '../puppet'
-const DevLogList = ({focusIndexBinder, articleRefs, ...props}) => {
+const DevLogList = ({lListBtnBinder, focusIndexBinder, articleRefs, ...props}) => {
   const [focusIndex] = useState(focusIndexBinder)
+  const [lListBtn, setlListBtn] = useState(lListBtnBinder)
   return GeneralList(props, styles, (meta, i, length) => 
     <div key={i} 
       className={focusIndex.has(i) ? 
@@ -11,6 +12,7 @@ const DevLogList = ({focusIndexBinder, articleRefs, ...props}) => {
       onClick={() => {
         const ref = articleRefs.get(i)
         if(ref) {
+          setlListBtn(false)
           ref.node.scrollIntoView(true)
         }
       }}
