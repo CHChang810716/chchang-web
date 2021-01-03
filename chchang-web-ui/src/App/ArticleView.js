@@ -2,7 +2,7 @@ import styles         from './ArticleView.module.scss'
 import ReactMarkdown  from 'react-markdown'
 import InfiniteScroll from "react-infinite-scroll-component";
 import React          from 'react';
-import { useState }   from '../puppet'
+import { useState }   from '@chchang810716/react-sss'
 import { InView }     from 'react-intersection-observer';
 import gfm            from 'remark-gfm';
 import simplePlantUML from '@akebifiky/remark-simple-plantuml'
@@ -15,8 +15,8 @@ const ArticleView = ({
   refContainer
 }) => {
   const [infscrollid] = useId();
-  const [articles] = useState(articlesBinder, 'ArticleView');
-  const [focusIndex, setFocusIndex] = useState(focusIndexBinder, 'ArticleView')
+  const articles = useState(articlesBinder, 'ArticleView');
+  const focusIndex = useState(focusIndexBinder, 'ArticleView')
   return (
     <div className={styles.ArticleView}>
       <div className={styles.Header}>
@@ -34,12 +34,12 @@ const ArticleView = ({
                 if(inView && !focusIndex.has(i)) {
                   let index = new Set(focusIndex)
                   index.add(i)
-                  setFocusIndex(index)
+                  focusIndexBinder.set(index)
                 }
                 if(!inView && focusIndex.has(i)) {
                   let index = new Set(focusIndex)
                   index.delete(i)
-                  setFocusIndex(index)
+                  focusIndexBinder.set(index)
                 }
               }}
               className={styles.Article}>

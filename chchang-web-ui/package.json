@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@akebifiky/remark-simple-plantuml": "^1.0.2",
+    "@chchang810716/react-sss": "1.2.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

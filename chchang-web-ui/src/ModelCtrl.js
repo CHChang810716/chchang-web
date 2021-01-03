@@ -1,7 +1,7 @@
 import Article from './ModelCtrl/Article'
 import Devlog from './ModelCtrl/Devlog'
 import About from './ModelCtrl/About'
-import {State} from './puppet'
+import {State} from '@chchang810716/react-sss'
 
 class ModelCtrl {
   constructor() {
@@ -10,17 +10,17 @@ class ModelCtrl {
     this.devlog   = new Devlog();
   }
   mainNavIterBinder     = new State(-1, i => {
-    return this.currFeature.set(
-      this.mainNavItemsBinder.val[i]
-    ).then(() => {
-      return this.currFeature.val.init();
-    })
+    this.currFeature.set(
+      this.mainNavItemsBinder.read()[i]
+    )
   }, 'mainNavIter')
   mainNavItemsBinder    = new State([], () => {
     this.mainNavIterBinder.set(0)
   }, 'mainNavItems')
   mainNavLListBtnBinder = new State(false, null, 'mainNavLListBtn')
-  currFeature           = new State('', null, 'currFeature')
+  currFeature           = new State(null, s => {
+    this.currFeature.read().init()
+  }, 'currFeature')
 
 
   init = async () => {

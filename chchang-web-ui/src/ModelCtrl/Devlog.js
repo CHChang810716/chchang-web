@@ -1,6 +1,6 @@
 import axios from 'axios'
 import config from './config'
-import {State} from '../puppet'
+import {State} from '@chchang810716/react-sss'
 // import makeid from '../makeid'
 class RefSet {
   add = (i, ref) => {
@@ -27,9 +27,9 @@ class Devlog {
     }
     let pmList = []
     let i = 0;
-    for(i = 0; i < num && this.currFetchedIter + i < this.index.val.length; i ++) {
+    for(i = 0; i < num && this.currFetchedIter + i < this.index.read().length; i ++) {
       
-      const name = this.index.val[this.currFetchedIter + i].label;
+      const name = this.index.read()[this.currFetchedIter + i].label;
       
       pmList.push(
         axios.get(
@@ -39,7 +39,7 @@ class Devlog {
     }
     this.currFetchedIter += i;
     return Promise.all(pmList).then(articleList => {
-      this.articles.set(this.articles.val.concat(
+      this.articles.set(this.articles.read().concat(
         articleList.map(rep => ({content: rep.data}))
       ))
     })
@@ -51,16 +51,15 @@ class Devlog {
         .sort()
         .reverse()
         .map(label => ({label: label}))
-    ).then(() => {
-    })
+    )
   }
   hasMore = () => {
     if(this.currFetchedIter < 0) return false;
-    return this.currFetchedIter < this.index.val.length
+    return this.currFetchedIter < this.index.read().length
   }
   label           = 'Dev Log'
   currFetchedIter = -1
-  index           = new State([], () => {
+  index           = new State([], s => {
     this.currFetchedIter = 0;
     this.fetchMore(3)
   }, 'devlog-index')

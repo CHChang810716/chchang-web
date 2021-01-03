@@ -5,7 +5,7 @@ import ModelCtrl from './ModelCtrl'
 import MainNav from './App/MainNav'
 import ArticleList from './App/ArticleList'
 import React, {useEffect} from 'react'
-import {useState} from './puppet'
+import {useState} from '@chchang810716/react-sss'
 import DevLogList from './App/DevLogList'
 import {pad} from './App/screenDecl'
 import {useMediaQuery} from 'react-responsive'
@@ -15,7 +15,7 @@ screen0.label = 0
 
 const modelCtrl = new ModelCtrl();
 const AppContent = ({}) => {
-  const [feature] = useState(modelCtrl.currFeature, 'AppContent')
+  const feature = useState(modelCtrl.currFeature, 'AppContent')
   switch (feature) {
     // case modelCtrl.article: 
     //   return <ArticleView 
@@ -38,7 +38,7 @@ const AppContent = ({}) => {
   }
 }
 const AppLSidebar = ({...args}) => {
-  const [feature] = useState(modelCtrl.currFeature, 'AppLSidebar')
+  const feature = useState(modelCtrl.currFeature, 'AppLSidebar')
   
   switch (feature) {
     case modelCtrl.article: 
@@ -65,7 +65,7 @@ const App = () => {
   useEffect(()=>{
     modelCtrl.init();
   }, [])
-  const [showLSidebar] = useState(modelCtrl.mainNavLListBtnBinder, 'App')
+  const showLSidebar = useState(modelCtrl.mainNavLListBtnBinder)
   return (
     <div className={styles.App}>
       <div className={styles.Header}>

@@ -1,15 +1,15 @@
 import styles from './MainNav.module.scss'
 import React from 'react'
-import {useState} from '../puppet'
+import {useState} from '@chchang810716/react-sss'
 import {pad} from './screenDecl'
 import {useMediaQuery} from 'react-responsive'
 import {FiMenu} from 'react-icons/fi'
 
 const MainNav = ({iterBinder, itemsBinder, lListBtnBinder}) => {
   const isPad = useMediaQuery(pad)
-  const [iter, setIter] = useState(iterBinder, 'MainNav');
-  const [items, setItems] = useState(itemsBinder, 'MainNav');
-  const [lListBtn, setlListBtn] = useState(lListBtnBinder, 'MainNav');
+  const iter = useState(iterBinder, 'MainNav');
+  const items = useState(itemsBinder, 'MainNav');
+  const lListBtn = useState(lListBtnBinder, 'MainNav');
   return (
     <div className={styles.MainNav}> 
       <div className={isPad ? styles.ItemListWithLLBtn : styles.ItemList}>
@@ -21,7 +21,7 @@ const MainNav = ({iterBinder, itemsBinder, lListBtnBinder}) => {
             }>
               <FiMenu className={styles.LListBtn} 
                 size={"100%"}
-                onClick={() => setlListBtn(!lListBtn)}
+                onClick={() => lListBtnBinder.set(!lListBtn)}
               />
             </div> : 
             null
@@ -37,7 +37,7 @@ const MainNav = ({iterBinder, itemsBinder, lListBtnBinder}) => {
                     styles.Item
                 )}
                 onClick={() => {
-                  setIter(i)
+                  iterBinder.set(i)
                 }}
               >
                 <div className={styles.ItemText}>
