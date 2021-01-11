@@ -42,6 +42,6 @@ struct TabUser : public ::sqlpp::spec_base
 
   using primary_key = sqlpp::type_vector<Id>;
 };
-constexpr auto tabPerson = sqlpp::table_t<TabUser>{};
+constexpr auto tabUser = sqlpp::table_t<TabUser>{};
 
 }

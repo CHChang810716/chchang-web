@@ -46,7 +46,7 @@ namespace sqlpp
   [[nodiscard]] auto to_sql_string(postgresql::context_t& context,
                                    const clause_base<create_table_if_not_exists_t<Table>, Statement>& t)
   {
-    auto ret = std::string{"CREATE TABLE IF NOT EXISTS"} + to_sql_string(context, t._table);
+    auto ret = std::string{"CREATE TABLE IF NOT EXISTS "} + to_sql_string(context, t._table);
     ret += "(";
     ret += ::sqlpp::postgresql::detail::to_sql_create_columns_string(context, column_tuple_of(t._table));
     ret += ::sqlpp::postgresql::detail::to_sql_primary_key(context, t._table);
