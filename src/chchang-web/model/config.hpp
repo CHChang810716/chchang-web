@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <sqlpp17/postgresql/connection_config.h>
 #include <sqlpp17/postgresql/connection.h>
 #include <iostream>
