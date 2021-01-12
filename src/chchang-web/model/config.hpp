@@ -9,10 +9,10 @@ namespace chchang_web::model
 constexpr auto get_db_config = []() -> ::sqlpp::postgresql::connection_config_t
 {
   auto config = ::sqlpp::postgresql::connection_config_t{};
-  config.dbname   = ""  ;
-  config.host     = ""  ;
-  config.user     = ""  ;
-  config.password = ""  ;
+  config.dbname   = "testdb"  ;
+  config.host     = "localhost"  ;
+  config.user     = "johnidfet"  ;
+  config.password = "qsefthuk90"  ;
   try
   {
     auto db = ::sqlpp::postgresql::connection_t<::sqlpp::debug::allowed>{config};
