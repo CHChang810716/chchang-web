@@ -2,6 +2,7 @@
 #include <pixiu/response.hpp>
 #include <avalon/app/path.hpp>
 #include <nlohmann/json.hpp>
+#include <pixiu/request_router.hpp>
 using namespace boost::beast;
 
 std::string mime_type(boost::beast::string_view path)
@@ -60,15 +61,15 @@ int main(int argc, char* argv[]) {
   /**
    * make a http server and listen to 8080 port
    */
-  auto server = pixiu::make_server();
-  server.get("/", [](const auto& req) {
+  auto server = pixiu::make_server(pixiu::request_router{});
+  server.get("/", [](const auto& ctx) {
     return get_static("index.html");
   });
-  server.get("/api/v1/hello_world", [](const auto& req) {
+  server.get("/api/v1/hello_world", [](const auto& ctx) {
     return pixiu::make_response("hello world");
   });
   server
-    .get("/api/v1/devlog/index", [](const auto& req) {
+    .get("/api/v1/devlog/index", [](const auto& ctx) {
       nlohmann::json index = std::vector<std::string>();
       auto devlogfs = avalon::app::install_dir() / "devlog";
       logger().debug("get index: {}", devlogfs.string());
@@ -84,7 +85,7 @@ int main(int argc, char* argv[]) {
       return pixiu::make_response(index.dump());
     })
     .get("/api/v1/devlog/article", params<std::string>("name"),
-      [](const auto& req, const std::string& name){
+      [](const auto& ctx, const std::string& name){
         auto article_path = avalon::app::install_dir() 
           / "devlog" 
           / fmt::format("{}.md", name)
@@ -93,8 +94,8 @@ int main(int argc, char* argv[]) {
         return pixiu::make_response(article_path);
       }
     )
-    .get("/.+", [](const auto& req) {
-      return get_static(req.target().substr(1).to_string());
+    .get("/.+", [](const auto& ctx) {
+      return get_static(std::to_string(ctx.req.target().substr(1)));
     })
     .listen("0.0.0.0", std::atoi(argv[1]))
     .run();
