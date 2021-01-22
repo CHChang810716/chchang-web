@@ -49,7 +49,25 @@ struct TabArticle : public ::sqlpp::spec_base
     static constexpr auto default_value = std::string_view("");
   };
 
-  using _columns = ::sqlpp::type_vector<Id, Title, Auther, Content>;
+  struct CreateDate : public ::sqlpp::spec_base
+  {
+    SQLPP_NAME_TAGS_FOR_SQL_AND_CPP(create_date, create_date);
+    using value_type = std::int64_t;
+    static constexpr auto can_be_null = false;
+    static constexpr auto has_auto_increment = false;
+    static constexpr auto has_default_value = false;
+  };
+
+  struct UpdateDate : public ::sqlpp::spec_base
+  {
+    SQLPP_NAME_TAGS_FOR_SQL_AND_CPP(update_date, update_date);
+    using value_type = std::int64_t;
+    static constexpr auto can_be_null = false;
+    static constexpr auto has_auto_increment = false;
+    static constexpr auto has_default_value = false;
+  };
+  
+  using _columns = ::sqlpp::type_vector<Id, Title, Auther, Content, CreateDate, UpdateDate>;
 
   using primary_key = sqlpp::type_vector<Id>;
 };
