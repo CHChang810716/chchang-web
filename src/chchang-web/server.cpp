@@ -3,6 +3,8 @@
 #include <avalon/app/path.hpp>
 #include <nlohmann/json.hpp>
 #include <pixiu/request_router.hpp>
+#include <chchang-web/model.h>
+
 using namespace boost::beast;
 
 std::string mime_type(boost::beast::string_view path)
@@ -61,6 +63,7 @@ int main(int argc, char* argv[]) {
   /**
    * make a http server and listen to 8080 port
    */
+  chchang_web::init_db();
   auto server = pixiu::make_server(pixiu::request_router{});
   server.get("/", [](const auto& ctx) {
     return get_static("index.html");
@@ -69,6 +72,59 @@ int main(int argc, char* argv[]) {
     return pixiu::make_response("hello world");
   });
   server
+    .post("/api/v1/login", 
+      params<std::string, std::string>("email", "passwd"),  
+      [](auto& ctx, const std::string& email, const std::string& passwd) {
+        auto& sesn = ctx.session();
+        if(
+          sesn.find("is_login") != sesn.end() && 
+          sesn["is_login"].template get<bool>()
+        ) {
+          return pixiu::make_response(nlohmann::json({
+            {"err_code", 0},
+            {"msg", "have logined in"}
+          }));
+        }
+        try {
+          auto user_id = chchang_web::verify_user(email, passwd);
+          sesn["is_login"] = true;
+          sesn["user_id"] = user_id;
+          return pixiu::make_response(nlohmann::json({
+            {"err_code", 0},
+            {"msg", "login success"}
+          }));
+        } catch(const std::exception& e) {
+          return pixiu::make_response(nlohmann::json({
+            {"err_code", 1},
+            {"msg", e.what()}
+          }));
+        }
+      }
+    )
+    .post("/api/v1/register", 
+      params<std::string, std::string>("email", "passwd"),  
+      [](auto& ctx, const std::string& email, const std::string& passwd) {
+        auto& sesn = ctx.session();
+        try {
+          if(!chchang_web::add_user(email, passwd)) {
+            return pixiu::make_response(nlohmann::json({
+              {"err_code", 1},
+              {"msg", "unable to create user, user may exist or user name invalid"}
+            }));
+          }
+          sesn["is_login"] = false;
+          return pixiu::make_response(nlohmann::json({
+            {"err_code", 0},
+            {"msg", "register success"}
+          }));
+        } catch(const std::exception& e) {
+          return pixiu::make_response(nlohmann::json({
+            {"err_code", 1},
+            {"msg", e.what()}
+          }));
+        }
+      }
+    )
     .get("/api/v1/devlog/index", [](const auto& ctx) {
       nlohmann::json index = std::vector<std::string>();
       auto devlogfs = avalon::app::install_dir() / "devlog";

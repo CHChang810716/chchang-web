@@ -9,7 +9,7 @@ set(
 )
 HunterGate(
     URL "https://github.com/CHChang810716/hunter.git"
-    SHA1 55cf8226f8cfa44614de865d6b8fa1d09bc29f67
+    SHA1 2c683cbfda47b25e92f1f3797753867b09ca28dd
     FILEPATH ${CMAKE_CURRENT_LIST_DIR}/cmake/hunter_config.cmake
 )
 
