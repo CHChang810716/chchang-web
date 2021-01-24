@@ -64,12 +64,12 @@ struct session {
   std::int64_t  user_id   {-1};
 };
 
-void run_server(int port) {
+void run_server(int port, bool drop_table = false, int run_secs = -1) {
   pixiu::logger::config(avalon::app::install_dir() / "etc" / "config.json");
   /**
    * make a http server and listen to 8080 port
    */
-  chchang_web::init_db();
+  chchang_web::init_db(drop_table);
   pixiu::request_router<session> router;
   auto server = pixiu::make_server(router);
   server.get("/", [](const auto& ctx) {
@@ -157,6 +157,10 @@ void run_server(int port) {
     .get("/.+", [](const auto& ctx) {
       return get_static(std::to_string(ctx.req.target().substr(1)));
     })
-    .listen("0.0.0.0", port)
-    .run();
+    .listen("0.0.0.0", port);
+  if(run_secs <= 0) {
+    server.run();
+  } else {
+    server.run_for(std::chrono::seconds(run_secs));
+  }
 }
