@@ -25,6 +25,8 @@ $llist-btn-size: 14vw;
 }
 .MainNav {
   height: 100%;
+  display: grid;
+  grid-template-columns: 50% 50%;
 }
 @mixin vertical-center {
   position: relative;
@@ -47,4 +49,18 @@ $llist-btn-size: 14vw;
 .SelectedItem {
   @extend .Item;
   background: $gray-light;
+}
+.ProfileWrapper {
+  width: 100%;
+  height: 100%;
+}
+.Profile {
+  float: right;
+  display: grid;
+  height: 100%;
+
+}
+.Login {
+  width: 50px;
+  background-color: aqua;
 }

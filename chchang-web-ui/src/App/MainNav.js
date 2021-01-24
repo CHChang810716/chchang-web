@@ -47,6 +47,14 @@ const MainNav = ({iterBinder, itemsBinder, lListBtnBinder}) => {
           ) 
         }
       </div>
+      <div className={styles.ProfileWrapper}>
+        <div className={styles.Profile}>
+          <div className={styles.Login} onClick={e => {
+            
+          }}>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
