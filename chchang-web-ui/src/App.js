@@ -17,13 +17,6 @@ const modelCtrl = new ModelCtrl();
 const AppContent = ({}) => {
   const feature = useState(modelCtrl.currFeature, 'AppContent')
   switch (feature) {
-    // case modelCtrl.article: 
-    //   return <ArticleView 
-    //     articlesBinder   = {modelCtrl.article.articles}
-    //     focusIndexBinder = {modelCtrl.article.focusIndex}
-    //     fetchMore        = {modelCtrl.article.fetchMore}
-    //     hasMore          = {modelCtrl.article.hasMore}
-    //   />
     case modelCtrl.devlog:
       return <ArticleView 
         articlesBinder   = {modelCtrl.devlog.articles}
@@ -67,7 +60,7 @@ const App = () => {
   }, [])
   const showLSidebar = useState(modelCtrl.mainNavLListBtnBinder)
   return (
-    <div className={styles.App}>
+    <div className={styles.App} id="main">
       <div className={styles.Header}>
         <MainNav 
           iterBinder={modelCtrl.mainNavIterBinder}
