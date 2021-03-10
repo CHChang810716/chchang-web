@@ -5,6 +5,7 @@
 #include <nlohmann/json.hpp>
 #include <pixiu/request_router.hpp>
 #include <chchang-web/model.h>
+#include <pixiu/gauth.hpp>
 
 using namespace boost::beast;
 
@@ -60,18 +61,33 @@ template<class... T>
 using params = pixiu::server_bits::params<T...>;
 
 struct session {
-  bool          is_login  {false};
-  std::int64_t  user_id   {-1};
+  bool            is_login  {false};
+  std::int64_t    user_id   {-1};
+  nlohmann::json  google_auth;
 };
+std::string get_env(const char* name) {
+  if(const char* var = std::getenv(name); var) {
+    return std::string(var);
+  } else {
+    throw std::runtime_error(fmt::format("env: {} not found", name));
+  }
+}
 
 void run_server(int port, bool drop_table = false, int run_secs = -1) {
   pixiu::logger::config(avalon::app::install_dir() / "etc" / "config.json");
+  pixiu::gauth_gconfig gauth_cfg {
+    get_env("GOOGLE_CLIENT_ID"),
+    get_env("GOOGLE_AUTH_URI"),
+    get_env("GOOGLE_TOKEN_URI"),
+    get_env("GOOGLE_CLIENT_SECRET")
+  };
   /**
    * make a http server and listen to 8080 port
    */
+  boost::asio::io_context ioc;
   chchang_web::init_db(drop_table);
   pixiu::request_router<session> router;
-  auto server = pixiu::make_server(router);
+  auto server = pixiu::make_server(ioc, router);
   server.get("/", [](const auto& ctx) {
     return get_static("index.html");
   });
@@ -152,6 +168,16 @@ void run_server(int port, bool drop_table = false, int run_secs = -1) {
         ;
         logger().debug("get devlog article: {}", article_path.string());
         return pixiu::make_response(article_path);
+      }
+    )
+    .get("/api/v1/gauth", pixiu::gauth_gconfig::params(),
+      [&ioc, &gauth_cfg](const auto& ctx, const auto& code) {
+        auto gauth = pixiu::make_gauth(ioc, gauth_cfg,
+          get_env("HOST_URI"), {
+            "openid"
+          }
+        );
+        return gauth.callback(ctx, code);
       }
     )
     .get("/.+", [](const auto& ctx) {
