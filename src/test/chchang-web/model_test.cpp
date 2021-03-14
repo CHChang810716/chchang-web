@@ -2,8 +2,8 @@
 #include <cassert>
 int main() {
   chchang_web::init_db(true);
-  chchang_web::add_user("qquser@email.com", "qqpassword@@");
-  auto uid = chchang_web::verify_user("qquser@email.com", "qqpassword@@");
+  chchang_web::add_user("qquser@email.com");
+  auto uid = chchang_web::get_user("qquser@email.com");
   assert(uid >= 0);
   chchang_web::add_article(uid, "mytitle0", "# mytitle0\n\nmy content");
   chchang_web::add_article(uid, "mytitle1", "# mytitle1\n\nmy content");

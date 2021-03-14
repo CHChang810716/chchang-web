@@ -2,7 +2,7 @@
 #include <thread>
 #include <pixiu/client.hpp>
 #include <iostream>
-
+using namespace chchang_web;
 int main() {
   std::thread serv_worker([](){ run_server(8080, true, 20); });
   boost::asio::io_context ioc;

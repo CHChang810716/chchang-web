@@ -11,5 +11,12 @@ std::uint64_t to_timestamp(
   );
   return du.count();
 }
+std::string get_env(const char* name) {
+  if(const char* var = std::getenv(name); var) {
+    return std::string(var);
+  } else {
+    throw std::runtime_error(fmt::format("env: {} not found", name));
+  }
+}
 
 }

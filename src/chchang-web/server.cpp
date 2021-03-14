@@ -1,4 +1,5 @@
 #include "server.h"
+using namespace chchang_web;
 int main(int argc, char* argv[]) {
   if(argc < 2) {
     logger().error("chchang-web-server <port> [drop table(1/0)]");

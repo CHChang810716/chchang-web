@@ -29,16 +29,7 @@ struct TabUser : public ::sqlpp::spec_base
     static constexpr auto has_auto_increment = false;
   };
 
-  struct Password : public ::sqlpp::spec_base
-  {
-    SQLPP_NAME_TAGS_FOR_SQL_AND_CPP(password, password);
-    using value_type = ::sqlpp::text;
-    static constexpr auto can_be_null = false;
-    static constexpr auto has_default_value = false;
-    static constexpr auto has_auto_increment = false;
-  };
-
-  using _columns = ::sqlpp::type_vector<Id, Email, Password>;
+  using _columns = ::sqlpp::type_vector<Id, Email>;
 
   using primary_key = sqlpp::type_vector<Id>;
 };

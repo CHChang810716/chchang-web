@@ -1,12 +1,30 @@
 {
   "loggers": {
     "core": {
-      "level": "debug"
+      "level": "info"
     },
     "app": {
-      "level": "debug"
+      "level": "info"
     },
     "router": {
+      "level": "info"
+    },
+    "userinfo": {
+      "level": "debug"
+    },
+    "gauth": {
+      "level": "debug"
+    },
+    "http_base": {
+      "level": "info"
+    },
+    "context": {
+      "level": "info"
+    },
+    "client": {
+      "level": "info"
+    },
+    "model": {
       "level": "debug"
     }
   }

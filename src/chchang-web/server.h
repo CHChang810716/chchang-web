@@ -5,9 +5,13 @@
 #include <nlohmann/json.hpp>
 #include <pixiu/request_router.hpp>
 #include <chchang-web/model.h>
-#include <pixiu/gauth.hpp>
+#include <chrono>
+#include "api/v1/userinfo.hpp"
+#include "api/v1/guath.hpp"
 
 using namespace boost::beast;
+
+namespace chchang_web {
 
 std::string mime_type(boost::beast::string_view path)
 {
@@ -61,17 +65,27 @@ template<class... T>
 using params = pixiu::server_bits::params<T...>;
 
 struct session {
-  bool            is_login  {false};
-  std::int64_t    user_id   {-1};
-  nlohmann::json  google_auth;
-};
-std::string get_env(const char* name) {
-  if(const char* var = std::getenv(name); var) {
-    return std::string(var);
-  } else {
-    throw std::runtime_error(fmt::format("env: {} not found", name));
+  using time_point = std::chrono::system_clock::time_point;
+  bool is_login() const {
+    if(!google_auth.empty()) {
+      if(is_gauth_expired()) return false;
+      return true;
+    } else {
+      return false;
+    }
   }
-}
+  bool is_gauth_expired() const {
+    return std::chrono::system_clock::now() 
+      >= google_auth_expire_time
+    ;
+  }
+  bool            primary {false};
+  nlohmann::json  google_auth;
+  time_point      google_auth_expire_time;
+  std::int64_t    user_id;
+  std::string     email;
+  std::string     name;
+};
 
 void run_server(int port, bool drop_table = false, int run_secs = -1) {
   pixiu::logger::config(avalon::app::install_dir() / "etc" / "config.json");
@@ -88,63 +102,18 @@ void run_server(int port, bool drop_table = false, int run_secs = -1) {
   chchang_web::init_db(drop_table);
   pixiu::request_router<session> router;
   auto server = pixiu::make_server(ioc, router);
+  auto https_client = pixiu::make_ssl_client(ioc);
+  boost::asio::ssl::context ssl_ctx{
+    boost::asio::ssl::context::sslv23_client
+  };
+  https_client.set_ssl_context(std::move(ssl_ctx));
   server.get("/", [](const auto& ctx) {
     return get_static("index.html");
   });
-  server.get("/api/v1/hello_world", [](const auto& ctx) {
-    return pixiu::make_response("hello world");
-  });
   server
-    .post("/api/v1/login", 
-      params<std::string, std::string>("email", "passwd"),  
-      [](auto& ctx, const std::string& email, const std::string& passwd) {
-        auto& sesn = ctx.session();
-        if(sesn.is_login) {
-          return pixiu::make_response(nlohmann::json({
-            {"err_code", 0},
-            {"msg", "have logined in"}
-          }));
-        }
-        try {
-          auto user_id = chchang_web::verify_user(email, passwd);
-          sesn.is_login = true;
-          sesn.user_id = user_id;
-          return pixiu::make_response(nlohmann::json({
-            {"err_code", 0},
-            {"msg", "login success"}
-          }));
-        } catch(const std::exception& e) {
-          return pixiu::make_response(nlohmann::json({
-            {"err_code", 1},
-            {"msg", e.what()}
-          }));
-        }
-      }
-    )
-    .post("/api/v1/register", 
-      params<std::string, std::string>("email", "passwd"),  
-      [](auto& ctx, const std::string& email, const std::string& passwd) {
-        auto& sesn = ctx.session();
-        try {
-          if(!chchang_web::add_user(email, passwd)) {
-            return pixiu::make_response(nlohmann::json({
-              {"err_code", 1},
-              {"msg", "unable to create user, user may exist or user name invalid"}
-            }));
-          }
-          sesn.is_login = false;
-          return pixiu::make_response(nlohmann::json({
-            {"err_code", 0},
-            {"msg", "register success"}
-          }));
-        } catch(const std::exception& e) {
-          return pixiu::make_response(nlohmann::json({
-            {"err_code", 1},
-            {"msg", e.what()}
-          }));
-        }
-      }
-    )
+    .get("/api/v1/userinfo", [&](const auto& ctx) {
+      return api::v1::userinfo(ctx, https_client);
+    })
     .get("/api/v1/devlog/index", [](const auto& ctx) {
       nlohmann::json index = std::vector<std::string>();
       auto devlogfs = avalon::app::install_dir() / "devlog";
@@ -171,22 +140,22 @@ void run_server(int port, bool drop_table = false, int run_secs = -1) {
       }
     )
     .get("/api/v1/gauth", pixiu::gauth_gconfig::params(),
-      [&ioc, &gauth_cfg](const auto& ctx, const auto& code) {
-        auto gauth = pixiu::make_gauth(ioc, gauth_cfg,
-          get_env("HOST_URI"), {
-            "openid"
-          }
-        );
-        return gauth.callback(ctx, code);
+      [&ioc, &https_client, &gauth_cfg](const auto& ctx, const auto& code) {
+        return api::v1::gauth(ctx, code, ioc, https_client, gauth_cfg);
       }
     )
+    .get("/api/v1/hello_world", [](const auto& ctx) {
+      return pixiu::make_response("hello world");
+    })
     .get("/.+", [](const auto& ctx) {
       return get_static(std::to_string(ctx.req.target().substr(1)));
     })
     .listen("0.0.0.0", port);
   if(run_secs <= 0) {
-    server.run();
+    ioc.run();
   } else {
-    server.run_for(std::chrono::seconds(run_secs));
+    ioc.run_for(std::chrono::seconds(run_secs));
   }
+}
+
 }

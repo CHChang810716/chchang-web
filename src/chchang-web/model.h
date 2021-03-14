@@ -12,7 +12,30 @@
 #include <sqlpp17/clause/drop_table.h>
 #include <chchang-web/utils.hpp>
 
+#include <pixiu/logger.hpp>
+
 namespace chchang_web {
+
+namespace model {
+auto& logger() {
+  return pixiu::logger::get("model");
+}
+}
+
+struct UserNotFound : public std::runtime_error {
+  UserNotFound() : std::runtime_error("user not found") {}
+};
+struct BugUserCannotCreate : public std::runtime_error {
+  BugUserCannotCreate(const std::string& reason)
+  : std::runtime_error(
+    fmt::format("Bug: user cannot create, reason: {}", reason)
+  )
+  {}
+  BugUserCannotCreate()
+  : std::runtime_error("Bug: user cannot create")
+  {}
+};
+
 constexpr int encrypt_workload = 12; // this factor affects the time of encryption.
 constexpr auto get_db = []() -> auto& {
   static sqlpp::postgresql::connection_t<> db{ model::get_db_config() };
@@ -32,10 +55,26 @@ constexpr auto init_db = [](bool drop_tables = false) -> auto& {
   return db;
 };
 
-constexpr auto add_user = [](
-  const std::string_view& email,
-  const std::string_view& password
-) -> bool {
+struct EmailUsed : public std::runtime_error {
+  EmailUsed() : std::runtime_error("email has been used") {}
+};
+constexpr auto get_user = [](
+  const std::string_view& email
+) -> std::int64_t {
+  using model::schema::tabUser;
+  auto& db = get_db();
+  for(const auto& row : db(sqlpp::select(tabUser.id)
+    .from(tabUser)
+    .where(tabUser.email == email)
+  )) {
+    return row.id;
+  }
+  throw UserNotFound();
+};
+
+constexpr auto add_user_get_id = [](
+  const std::string_view& email
+) -> std::int64_t {
   using model::schema::tabUser;
   auto& db = get_db();
   bool email_used = false;
@@ -47,37 +86,36 @@ constexpr auto add_user = [](
     break; 
   }
   if(email_used) {
-    return false;
+    model::logger().error("email used");
+    throw EmailUsed();
   } else {
-    std::string pwd_str(password.data(), password.length());
     // going to insert user
-    auto hash = BCrypt::generateHash(pwd_str, encrypt_workload);
-    auto id = db(sqlpp::insert_into(tabUser).set(
-      tabUser.email = email,
-      tabUser.password = hash
+    db(sqlpp::insert_into(tabUser).set(
+      tabUser.email = email
     ));
-    return true;
+    return get_user(email);
   }
 };
-constexpr auto verify_user = [](
-  const std::string_view& email,
-  const std::string_view& password
-) -> std::int64_t {
-  using model::schema::tabUser;
-  auto& db = get_db();
-  for(const auto& row : db(sqlpp::select(tabUser.id, tabUser.password)
-    .from(tabUser)
-    .where(tabUser.email == email)
-  )) {
-    std::string hash(row.password.data(), row.password.length());
-    std::string pwd_str(password.data(), password.length());
-    if(BCrypt::validatePassword(pwd_str, hash)) {
-      return row.id;
-    } else {
-      throw std::runtime_error("user verify failed");
-    }
+
+constexpr auto add_user = [](
+  const std::string_view& email
+) -> bool {
+  try {
+    add_user_get_id(email);
+    return true;
+  } catch (const EmailUsed& e) {
+    return false;
   }
-  throw std::runtime_error("user verify failed");
+};
+
+constexpr auto get_or_insert_user = [](
+  const std::string_view& email
+) -> std::int64_t {
+  try {
+    return get_user(email);
+  } catch(const UserNotFound& e) {
+    return add_user_get_id(email);
+  }
 };
 
 constexpr auto add_article = [](
